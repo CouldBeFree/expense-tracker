@@ -2,7 +2,7 @@
   <v-app>
     <v-content>
       <div class="wrap">
-        <NavBar></NavBar>
+        <NavBar elevation="5"></NavBar>
         <nuxt />
       </div>
     </v-content>

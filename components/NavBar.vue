@@ -23,6 +23,8 @@
 
 <style scoped lang="scss">
   .nav{
+    background: #ffffff;
+
     a{
       text-decoration: none;
 
