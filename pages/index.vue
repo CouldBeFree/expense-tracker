@@ -1,30 +1,38 @@
 <template>
-  <!--<div class="wrapper grid-list-xl">-->
   <v-container grid-list-lg grid-list-md grid-list-xs>
     <v-layout>
       <v-flex xs4>
-        <balance-card :balance="1000"></balance-card>
+        <Balance-card :balance="1000"></Balance-card>
       </v-flex>
       <v-flex xs4>
-        <balance-card :path="'/incomes'" xs4 :incomes="1000"></balance-card>
+        <Balance-card :path="'/incomes'" xs4 :incomes="1000"></Balance-card>
       </v-flex>
       <v-flex xs4>
-        <balance-card :path="'/expenses'" xs4 :expenses="1000"></balance-card>
+        <Balance-card :path="'/expenses'" xs4 :expenses="1000"></Balance-card>
       </v-flex>
       <v-flex xs4>
-        <balance-card :path="'/savings'" xs4 :savings="1200"></balance-card>
+        <Balance-card :path="'/savings'" xs4 :savings="1200"></Balance-card>
+      </v-flex>
+    </v-layout>
+    <v-layout>
+      <v-flex xs6>
+        <Pie-card expense="expense"></Pie-card>
+      </v-flex>
+      <v-flex xs6>
+        <Pie-card income="income"></Pie-card>
       </v-flex>
     </v-layout>
   </v-container>
-  <!--</div>-->
 </template>
 
 <script>
-import balanceCard from "../components/balanceCard";
+import BalanceCard from "../components/BalanceCard";
+import PieCard from "../components/PieCard";
 
 export default {
   components: {
-    balanceCard
+    BalanceCard,
+    PieCard
   }
 }
 </script>

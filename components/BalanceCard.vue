@@ -30,10 +30,10 @@
 </template>
 
 <script>
-	export default {
-		name: "balanceCard",
-		props: ['balance', 'incomes', 'expenses', 'savings', 'path']
-	}
+  export default {
+    name: "balanceCard",
+    props: ['balance', 'incomes', 'expenses', 'savings', 'path']
+  }
 </script>
 
 <style scoped>

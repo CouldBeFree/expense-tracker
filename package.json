@@ -11,6 +11,8 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "chart.js": "^2.8.0",
+    "hchs-vue-charts": "^1.2.8",
     "nuxt": "^2.0.0"
   },
   "devDependencies": {
