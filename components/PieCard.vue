@@ -1,19 +1,21 @@
 <template>
-    <v-card>
-        <chartjs-doughnut
-                :labels="labels"
-                :datasets="datasets"
-                :option="option"
-        >
-        </chartjs-doughnut>
-    </v-card>
+    <no-ssr>
+        <v-card>
+            <chartjs-doughnut
+                    :labels="labels"
+                    :datasets="datasets"
+                    :option="option"
+            >
+            </chartjs-doughnut>
+        </v-card>
+    </no-ssr>
 </template>
 
 <script>
 
   export default {
     name: "PieCard",
-    props: ['expense', 'income'],
+    props: ['label'],
     data() {
       return {
         labels: ['Apples', 'Bananas', 'Grapes'],
@@ -27,7 +29,7 @@
           title: {
             display: true,
             position: 'bottom',
-            text: this.expense || this.income
+            text: this.label
           }
         }
       }
