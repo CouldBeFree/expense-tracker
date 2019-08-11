@@ -39,36 +39,35 @@
       :right="right"
       :left="left"
       :direction="direction"
-      :open-on-hover="hover"
       :transition="transition"
       >
       <template v-slot:activator>
         <v-btn
-                color="blue darken-4"
-                v-model="fab"
-                fab
-                dark
-                fixed
-                bottom
-                right
-                medium
+          color="blue darken-4"
+          v-model="fab"
+          fab
+          dark
+          fixed
+          bottom
+          right
+          medium
         >
           <v-icon medium>mdi-tooltip-plus-outline</v-icon>
         </v-btn>
       </template>
       <v-btn
-              fab
-              dark
-              small
-              color="green"
+        fab
+        dark
+        small
+        color="green"
       >
         <v-icon medium>mdi-currency-usd</v-icon>
       </v-btn>
       <v-btn
-              fab
-              dark
-              small
-              color="indigo"
+        fab
+        dark
+        small
+        color="red"
       >
         <v-icon medium>mdi-arrow-bottom-right</v-icon>
       </v-btn>
@@ -86,7 +85,6 @@ export default {
   data(){
     return{
       fab: false,
-      hover: false,
       direction: 'top',
       transition: 'slide-y-reverse-transition',
       top: false,
