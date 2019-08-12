@@ -60,6 +60,7 @@
         dark
         small
         color="green"
+        @click="openModal('income')"
       >
         <v-icon medium>mdi-currency-usd</v-icon>
       </v-btn>
@@ -68,10 +69,12 @@
         dark
         small
         color="red"
+        @click="openModal('expense')"
       >
         <v-icon medium>mdi-arrow-bottom-right</v-icon>
       </v-btn>
     </v-speed-dial>
+    <modal v-model="isOpen" :label="label"></modal>
   </v-container>
 </template>
 
@@ -80,6 +83,7 @@ import BalanceCard from "../components/BalanceCard";
 import PieCard from "../components/PieCard";
 import BarCard from "../components/BarCard";
 import TotalCard from "../components/TotalCard";
+import Modal from "../components/Modal";
 
 export default {
   data(){
@@ -91,13 +95,22 @@ export default {
       right: true,
       bottom: true,
       left: false,
+	    isOpen: false,
+      label: ''
+    }
+  },
+  methods: {
+	  openModal(val){
+	  	this.isOpen = true;
+	  	this.label = val;
     }
   },
   components: {
     BalanceCard,
     PieCard,
     BarCard,
-    TotalCard
+    TotalCard,
+    Modal
   }
 }
 </script>
