@@ -16,10 +16,16 @@
     </v-layout>
     <v-layout>
       <v-flex xs6>
-        <pie-card label="expense"></pie-card>
+        <pie-card
+          label="expense"
+          :options="expense"
+        ></pie-card>
       </v-flex>
       <v-flex xs6>
-        <pie-card label="income"></pie-card>
+        <pie-card
+          label="income"
+          :options="incomes"
+        ></pie-card>
       </v-flex>
     </v-layout>
     <v-layout>
@@ -74,7 +80,11 @@
         <v-icon medium>mdi-arrow-bottom-right</v-icon>
       </v-btn>
     </v-speed-dial>
-    <modal v-model="isOpen" :label="label"></modal>
+    <modal
+      v-model="isOpen"
+      :label="label"
+      @data="getData"
+    ></modal>
   </v-container>
 </template>
 
@@ -84,6 +94,7 @@ import PieCard from "../components/PieCard";
 import BarCard from "../components/BarCard";
 import TotalCard from "../components/TotalCard";
 import Modal from "../components/Modal";
+import { mapState, mapMutations, mapGetters } from 'vuex';
 
 export default {
   data(){
@@ -103,7 +114,21 @@ export default {
 	  openModal(val){
 	  	this.isOpen = true;
 	  	this.label = val;
-    }
+    },
+	  getData(val){
+		  this.setData([this.label, val])
+	  },
+    ...mapMutations(['setData'])
+  },
+  computed: {
+  	...mapState({
+
+    }),
+    ...mapGetters([
+    	'incomes',
+      'expense',
+      'balance'
+    ])
   },
   components: {
     BalanceCard,
@@ -118,12 +143,5 @@ export default {
 <style>
   body{
     background: #ededee;
-  }
-
-  .wrapper{
-    max-width: 1000px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 15px;
   }
 </style>

@@ -53,7 +53,7 @@
             </v-flex>
             <v-flex xs6>
               <v-select
-                      :items="items"
+                      :items="selectOptions"
                       label="Category"
                       prepend-icon="mdi-format-list-bulleted"
                       v-model="category"
@@ -64,7 +64,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" @click="$emit('input', false)">Close</v-btn>
+        <v-btn color="blue darken-1" @click="clearForm">Close</v-btn>
         <v-btn color="blue darken-1" :disabled="!amount" @click="setData">Save</v-btn>
       </v-card-actions>
     </v-card>
@@ -81,7 +81,7 @@
         amount: 0,
         date: new Date().toISOString().substr(0, 10),
         menu: false,
-        category: 'Clothing',
+        category: '',
         items: ['Clothing', 'Food', 'Health Care', 'Home', 'Payments', 'Recreation']
       }
     },
@@ -89,13 +89,29 @@
       setData(){
         let data = {
           description: this.description,
-          amount: this.amount,
+          amount: +this.amount,
           date: this.date,
           category: this.category
         };
-        this.$refs.form.reset();
-        this.$emit('input', false);
+	      this.$emit('data', data);
+	      this.clearForm();
+      },
+      clearForm(){
+      	this.amount = 0;
+      	this.date = new Date().toISOString().substr(0, 10);
+      	this.description = '';
+	      this.$emit('input', false);
       }
+    },
+    computed: {
+	    selectOptions: function () {
+        let options;
+        let expenses = ['Clothing', 'Food', 'Health Care', 'Home', 'Payments', 'Recreation'];
+        let incomes = ['Salary', 'Other', 'Rewards', 'Gift'];
+		    options = this.label === 'income' ? incomes : expenses;
+		    this.category = options[0];
+		    return options;
+	    }
     }
   }
 </script>
