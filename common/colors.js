@@ -1,18 +1,6 @@
-const expenses = {
-  clothing: '#FF9494',
-  food: '#0099CC',
-  healthCare: '#C58BE2',
-  home: '#FF8A00',
-  recreation: '#669900',
-  payments: '#CC0D01',
-};
+const expenses = ['#FF9494','#0099CC','#C58BE2','#FF8A00','#669900','#CC0D01'];
 
-const incomes = {
-  salary: '#CC0D01',
-  other: '#9833CC',
-  rewards: '#FF8A00',
-  gift: '#669900'
-};
+const incomes = ['#CC0D01', '#9833CC', '#FF8A00', '#669900'];
 
 /*const expenses = {
   clothing: 'rgba(255, 148, 148, 1)',

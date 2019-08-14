@@ -1,5 +1,6 @@
 <template>
   <v-container grid-list-lg grid-list-md grid-list-xs>
+    {{incomes}}
     <v-layout>
       <v-flex xs4>
         <balance-card :balance="1000"></balance-card>
@@ -125,7 +126,7 @@ export default {
 
     }),
     ...mapGetters([
-    	'incomes',
+      'incomes',
       'expense',
       'balance'
     ])

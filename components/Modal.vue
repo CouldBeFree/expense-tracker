@@ -91,7 +91,8 @@
           description: this.description,
           amount: +this.amount,
           date: this.date,
-          category: this.category
+          category: this.category,
+          type: this.label
         };
 	      this.$emit('data', data);
 	      this.clearForm();
