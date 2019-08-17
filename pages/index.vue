@@ -16,16 +16,20 @@
     </v-layout>
     <v-layout>
       <v-flex xs6>
-        <pie-card
-          label="expense"
-          :options="expense"
-        ></pie-card>
+        <v-card height="290">
+          <pie-card
+            label="expense"
+            :options="expense"
+          ></pie-card>
+        </v-card>
       </v-flex>
       <v-flex xs6>
-        <pie-card
-          label="income"
-          :options="incomes"
-        ></pie-card>
+        <v-card height="290">
+          <pie-card
+            label="income"
+            :options="incomes"
+          ></pie-card>
+        </v-card>
       </v-flex>
     </v-layout>
     <v-layout>
@@ -50,7 +54,7 @@
       :left="left"
       :direction="direction"
       :transition="transition"
-      >
+    >
       <template v-slot:activator>
         <v-btn
           color="blue darken-4"
@@ -93,71 +97,71 @@
 </template>
 
 <script>
-import BalanceCard from "../components/BalanceCard";
-import PieCard from "../components/PieCard";
-import BarCard from "../components/BarCard";
-import TotalCard from "../components/TotalCard";
-import Modal from "../components/Modal";
-import { mapState, mapMutations, mapGetters } from 'vuex';
+  import BalanceCard from "../components/BalanceCard";
+  import PieCard from "../components/PieCard";
+  import BarCard from "../components/BarCard";
+  import TotalCard from "../components/TotalCard";
+  import Modal from "../components/Modal";
+  import { mapState, mapMutations, mapGetters } from 'vuex';
 
-export default {
-  data(){
-    return{
-      fab: false,
-      direction: 'top',
-      transition: 'slide-y-reverse-transition',
-      top: false,
-      right: true,
-      bottom: true,
-      left: false,
-	    isOpen: false,
-      label: ''
-    }
-  },
-  methods: {
-	  openModal(val){
-	  	this.isOpen = true;
-	  	this.label = val;
+  export default {
+    components: {
+      BalanceCard,
+      PieCard,
+      BarCard,
+      TotalCard,
+      Modal
     },
-	  getData(val){
-		  this.setData([this.label, val])
-	  },
-    ...mapMutations(['setData'])
-  },
-  computed: {
-  	...mapState({
+    data(){
+      return{
+        fab: false,
+        direction: 'top',
+        transition: 'slide-y-reverse-transition',
+        top: false,
+        right: true,
+        bottom: true,
+        left: false,
+        isOpen: false,
+        label: ''
+      }
+    },
+    methods: {
+      openModal(val){
+        this.isOpen = true;
+        this.label = val;
+      },
+      getData(val){
+        this.setData([this.label, val])
+      },
+      ...mapMutations(['setData'])
+    },
+    computed: {
+      ...mapState({
 
-    }),
-    ...mapGetters([
-      'incomes',
-      'expense'
-    ]),
-    count: function () {
-  	  let incomesCopy = this.incomes.map(el => ({...el}));
-  	  let expensesCopy = this.expense.map(el => ({...el}));
-      let incomesCount = 0;
-      let expensesCount = 0;
-      for(let i in incomesCopy){
-        incomesCount = incomesCopy[i].amount += incomesCount
-      }
-      for(let i in expensesCopy){
-        expensesCount = expensesCopy[i].amount += expensesCount
-      }
-      return {
-        incomes: +incomesCount,
-        expenses: +expensesCount,
-        balance: +incomesCount - expensesCount
+      }),
+      ...mapGetters([
+        'incomes',
+        'expense'
+      ]),
+      count: function () {
+        let incomesCopy = this.incomes.map(el => ({...el}));
+        let expensesCopy = this.expense.map(el => ({...el}));
+        let incomesCount = 0;
+        let expensesCount = 0;
+        for(let i in incomesCopy){
+          incomesCount = incomesCopy[i].amount += incomesCount
+        }
+        for(let i in expensesCopy){
+          expensesCount = expensesCopy[i].amount += expensesCount
+        }
+        return {
+          incomes: +incomesCount,
+          expenses: +expensesCount,
+          balance: +incomesCount - expensesCount
+        }
       }
     }
-  },
-  components: {
-    BalanceCard,
-    PieCard,
-    BarCard,
-    TotalCard,
-    Modal
   }
-}
 </script>
 
 <style>
