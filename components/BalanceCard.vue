@@ -22,7 +22,7 @@
                 </div>
                 <div v-else-if="savings" class="pr-1">
                     <div class="font-weight-light text-lg-right">Savings</div>
-                    <div style="color: #3F51B5; font-size: 18px; font-weight: bold;" class="text-lg-right">$ {{savings}}</div>
+                    <div style="color: #3F51B5; font-size: 18px; font-weight: bold;" class="text-lg-right">$ {{savings || 0}}</div>
                 </div>
             </v-flex>
         </v-layout>

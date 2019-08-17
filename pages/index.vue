@@ -1,18 +1,17 @@
 <template>
   <v-container grid-list-lg grid-list-md grid-list-xs>
-    {{incomes}}
     <v-layout>
       <v-flex xs4>
-        <balance-card :balance="1000"></balance-card>
+        <balance-card :balance="count.balance || '0'"></balance-card>
       </v-flex>
       <v-flex xs4>
-        <balance-card :path="'/incomes'" xs4 :incomes="1000"></balance-card>
+        <balance-card :path="'/incomes'" xs4 :incomes="count.incomes || '0'"></balance-card>
       </v-flex>
       <v-flex xs4>
-        <balance-card :path="'/expenses'" xs4 :expenses="1000"></balance-card>
+        <balance-card :path="'/expenses'" xs4 :expenses="count.expenses || '0'"></balance-card>
       </v-flex>
       <v-flex xs4>
-        <balance-card :path="'/savings'" xs4 :savings="1200"></balance-card>
+        <balance-card :path="'/savings'" xs4 :savings="count.balance || '0'"></balance-card>
       </v-flex>
     </v-layout>
     <v-layout>
@@ -34,7 +33,11 @@
         <bar-card></bar-card>
       </v-flex>
       <v-flex xs6>
-        <total-card></total-card>
+        <total-card
+          :income="count.incomes"
+          :expenses="count.expenses"
+          :savings="count.balance"
+        ></total-card>
       </v-flex>
     </v-layout>
     <v-speed-dial
@@ -127,9 +130,25 @@ export default {
     }),
     ...mapGetters([
       'incomes',
-      'expense',
-      'balance'
-    ])
+      'expense'
+    ]),
+    count: function () {
+  	  let incomesCopy = this.incomes.map(el => ({...el}));
+  	  let expensesCopy = this.expense.map(el => ({...el}));
+      let incomesCount = 0;
+      let expensesCount = 0;
+      for(let i in incomesCopy){
+        incomesCount = incomesCopy[i].amount += incomesCount
+      }
+      for(let i in expensesCopy){
+        expensesCount = expensesCopy[i].amount += expensesCount
+      }
+      return {
+        incomes: +incomesCount,
+        expenses: +expensesCount,
+        balance: +incomesCount - expensesCount
+      }
+    }
   },
   components: {
     BalanceCard,

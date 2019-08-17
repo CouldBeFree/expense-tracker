@@ -1,15 +1,20 @@
 <template>
     <no-ssr>
-        <v-card>
-            <chartjs-doughnut
-                    :labels="labels"
-                    :option="option"
-                    :data="data"
-                    :bind="true"
-                    :backgroundcolor="colors"
-                    :hoverbackgroundcolor="colors"
-            >
-            </chartjs-doughnut>
+        <v-card height="290">
+            <div v-if="options.length">
+                <chartjs-doughnut
+                        :labels="labels"
+                        :option="option"
+                        :data="data"
+                        :bind="true"
+                        :backgroundcolor="colors"
+                        :hoverbackgroundcolor="colors"
+                >
+                </chartjs-doughnut>
+            </div>
+            <div v-else class="d-flex justify-center align-center" style="height: 100%">
+                <v-icon color="primary" size="100">mdi-chart-arc</v-icon>
+            </div>
         </v-card>
     </no-ssr>
 </template>
