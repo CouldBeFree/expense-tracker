@@ -45,7 +45,8 @@ export default {
           description:"",
           type:"expense",
         }
-      ]
+      ],
+      transaction: ''
     }
   },
   mutations: {
@@ -55,6 +56,9 @@ export default {
       } else {
         state.expenses.push(payload[1])
       }
+    },
+    setTransaction(state, payload){
+      state.transaction = payload;
     }
   },
   actions: {
@@ -79,6 +83,7 @@ export default {
         expenses: +expensesCount,
         balance: +incomesCount - expensesCount
       }
-    }
+    },
+    transactions: state => state.transaction
   }
 }
