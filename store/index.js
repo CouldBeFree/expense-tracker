@@ -9,6 +9,7 @@ export default {
           date:"2019-08-18",
           description:"",
           type:"expense",
+          id: 1
         },
         {
           amount:100,
@@ -16,6 +17,7 @@ export default {
           date:"2019-08-18",
           description:"",
           type:"expense",
+          id: 12
         },
         {
           amount:100,
@@ -23,6 +25,7 @@ export default {
           date:"2019-08-18",
           description:"",
           type:"expense",
+          id: 123
         },
         {
           amount:100,
@@ -30,6 +33,7 @@ export default {
           date:"2019-08-18",
           description:"",
           type:"expense",
+          id: 1434
         },
         {
           amount:100,
@@ -37,6 +41,7 @@ export default {
           date:"2019-08-18",
           description:"",
           type:"expense",
+          id: 1123
         },
         {
           amount:100,
@@ -44,9 +49,10 @@ export default {
           date:"2019-08-18",
           description:"",
           type:"expense",
+          id: 11231
         }
       ],
-      transaction: ''
+      objectToEdit: {}
     }
   },
   mutations: {
@@ -57,8 +63,20 @@ export default {
         state.expenses.push(payload[1])
       }
     },
-    setTransaction(state, payload){
-      state.transaction = payload;
+    removeExpenseItem(state, payload){
+      const index = state.expenses.findIndex(el => el.id === payload);
+      state.expenses.splice(index, 1);
+    },
+    removeIncomeItem(state, payload){
+      const index = state.incomes.findIndex(el => el.id === payload);
+      state.incomes.splice(index, 1);
+    },
+    setEditedObject(state, payload){
+      state.objectToEdit = payload;
+    },
+    editObject(state, payload){
+      console.log(payload);
+      state.objectToEdit[payload[0]] = payload[1]
     }
   },
   actions: {
@@ -83,7 +101,6 @@ export default {
         expenses: +expensesCount,
         balance: +incomesCount - expensesCount
       }
-    },
-    transactions: state => state.transaction
+    }
   }
 }

@@ -57,7 +57,9 @@
         ></total-card>
       </v-flex>
     </v-layout>
-    <modal></modal>
+    <modal
+       v-model="isOpen"
+    ></modal>
   </v-container>
 </template>
 
@@ -77,16 +79,17 @@
       TotalCard,
       Modal
     },
-    methods: {
-    
+    data(){
+      return {
+        isOpen: false
+      }
     },
     computed: {
       ...mapGetters([
         'incomes',
         'expense',
         'count'
-      ]),
-      
+      ])
     }
   }
 </script>

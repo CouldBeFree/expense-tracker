@@ -4,6 +4,10 @@
       <date-picker></date-picker>
     </v-layout>
     <h2>Incomes</h2>
+    <data-table
+      :options="incomes"
+      @delete="removeItem"
+    ></data-table>
     <modal></modal>
   </v-container>
 </template>
@@ -11,12 +15,28 @@
 <script>
   import DatePicker from "../components/DatePicker";
   import Modal from "../components/Modal";
+  import DataTable from "../components/DataTable";
+  import { mapGetters, mapMutations } from 'vuex'
   
   export default {
     name: "incomes",
     components: {
       DatePicker,
-      Modal
+      Modal,
+      DataTable
+    },
+    computed: {
+      ...mapGetters([
+        'incomes'
+      ])
+    },
+    methods: {
+      ...mapMutations([
+        'removeIncomeItem'
+      ]),
+      removeItem(item){
+        this.removeIncomeItem(item.id)
+      }
     }
   }
 </script>

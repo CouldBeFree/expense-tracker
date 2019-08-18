@@ -34,7 +34,9 @@
         </v-flex>
       </v-layout>
     </v-card>
-    <modal></modal>
+    <modal
+      v-model="isOpen"
+    ></modal>
   </v-container>
 </template>
 
@@ -55,7 +57,7 @@
     },
     data(){
       return {
-      
+        isOpen: false
       }
     },
     computed: {
