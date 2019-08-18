@@ -141,25 +141,9 @@
       }),
       ...mapGetters([
         'incomes',
-        'expense'
+        'expense',
+        'count'
       ]),
-      count: function () {
-        let incomesCopy = this.incomes.map(el => ({...el}));
-        let expensesCopy = this.expense.map(el => ({...el}));
-        let incomesCount = 0;
-        let expensesCount = 0;
-        for(let i in incomesCopy){
-          incomesCount = incomesCopy[i].amount += incomesCount
-        }
-        for(let i in expensesCopy){
-          expensesCount = expensesCopy[i].amount += expensesCount
-        }
-        return {
-          incomes: +incomesCount,
-          expenses: +expensesCount,
-          balance: +incomesCount - expensesCount
-        }
-      }
     }
   }
 </script>

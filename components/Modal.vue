@@ -9,31 +9,31 @@
           <v-layout wrap>
             <v-flex xs6>
               <v-text-field
-                      label="Insert value"
-                      type="number"
-                      v-model="amount"
-                      prefix="$"
-                      prepend-icon="mdi-calculator"
+                label="Insert value"
+                type="number"
+                v-model="amount"
+                prefix="$"
+                prepend-icon="mdi-calculator"
               ></v-text-field>
             </v-flex>
             <v-flex xs6>
               <v-menu
-                      ref="menu"
-                      v-model="menu"
-                      :close-on-content-click="false"
-                      :return-value.sync="date"
-                      transition="scale-transition"
-                      offset-y
-                      full-width
-                      min-width="290px"
+                ref="menu"
+                v-model="menu"
+                :close-on-content-click="false"
+                :return-value.sync="date"
+                transition="scale-transition"
+                offset-y
+                full-width
+                min-width="290px"
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
-                          v-model="date"
-                          label="Picker in menu"
-                          prepend-icon="mdi-calendar"
-                          readonly
-                          v-on="on"
+                    v-model="date"
+                    label="Picker in menu"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-on="on"
                   ></v-text-field>
                 </template>
                 <v-date-picker v-model="date" no-title scrollable>
@@ -45,18 +45,18 @@
             </v-flex>
             <v-flex xs6>
               <v-text-field
-                      type="text"
-                      label="Description"
-                      prepend-icon="mdi-comment-text"
-                      v-model="description"
+                type="text"
+                label="Description"
+                prepend-icon="mdi-comment-text"
+                v-model="description"
               ></v-text-field>
             </v-flex>
             <v-flex xs6>
               <v-select
-                      :items="selectOptions"
-                      label="Category"
-                      prepend-icon="mdi-format-list-bulleted"
-                      v-model="category"
+                :items="selectOptions"
+                label="Category"
+                prepend-icon="mdi-format-list-bulleted"
+                v-model="category"
               ></v-select>
             </v-flex>
           </v-layout>
