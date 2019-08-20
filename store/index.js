@@ -52,7 +52,9 @@ export default {
           id: 11231
         }
       ],
-      objectToEdit: {}
+      details: {},
+      currentItem: '',
+      loading: false
     }
   },
   mutations: {
@@ -75,12 +77,30 @@ export default {
       state.objectToEdit = payload;
     },
     editObject(state, payload){
-      console.log(payload);
       state.objectToEdit[payload[0]] = payload[1]
+    },
+    setDetailsParams(state){
+      state.currentItem === 'income' ? state.incomes.push(state.details) : state.expenses.push(state.details)
+    },
+    setParams(state, payload){
+      state.details[payload[0]] = payload[1]
+    },
+    setCurrentItem(state, payload){
+      state.currentItem = payload;
+    },
+    setLoading(state, payload){
+      state.loading = payload;
     }
   },
   actions: {
-  
+    saveParams({state, commit}){
+      commit('setLoading', true);
+      setTimeout(() => {
+        //state.currentItem === 'income' ? state.incomes.push(state.details) : state.expenses.push(state.details)
+        commit('setDetailsParams');
+      }, 2000);
+      commit('setLoading', false);
+    }
   },
   getters: {
     incomes: state => state.incomes,

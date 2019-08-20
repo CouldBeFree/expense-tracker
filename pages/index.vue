@@ -29,7 +29,7 @@
     </v-layout>
     <v-layout>
       <v-flex xs6>
-        <v-card height="290">
+        <v-card height="300">
           <pie-card
             label="expense"
             :options="expense"
@@ -37,7 +37,7 @@
         </v-card>
       </v-flex>
       <v-flex xs6>
-        <v-card height="290">
+        <v-card height="300">
           <pie-card
             label="income"
             :options="incomes"

@@ -4,48 +4,48 @@
       <v-card>
         <v-card-title>
           <span class="headline" v-if="label">{{uppercase(label)}}</span>
-          <span v-else>{{uppercase(objectToEdit.type)}}</span>
-          {{objectToEdit}}
-          {{amount}}
         </v-card-title>
         <v-card-text>
           <v-form ref="form">
             <v-layout wrap>
               <v-flex xs6>
                 <v-text-field
-                  label="Insert value"
-                  type="number"
-                  :value="objectToEdit.amount || amount"
-                  @input="getAmount"
-                  prefix="$"
-                  prepend-icon="mdi-calculator"
+                        label="Insert value"
+                        type="number"
+                        :value="details.amount"
+                        :rules="[v => !!v || 'Amount is required']"
+                        @input="setParams(['amount', $event])"
+                        prefix="$"
+                        prepend-icon="mdi-calculator"
                 ></v-text-field>
               </v-flex>
               <v-flex xs6>
                 <v-menu
-                  ref="menu"
-                  v-model="menu"
-                  :close-on-content-click="false"
-                  :return-value.sync="date"
-                  transition="scale-transition"
-                  offset-y
-                  full-width
-                  min-width="290px"
+                        ref="menu"
+                        v-model="menu"
+                        :close-on-content-click="false"
+                        :return-value.sync="date"
+                        transition="scale-transition"
+                        offset-y
+                        full-width
+                        min-width="290px"
                 >
                   <template v-slot:activator="{ on }">
                     <v-text-field
-                      :value="objectToEdit.date || date"
-                      @input="getDate"
-                      label="Picker in menu"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      v-on="on"
+                            :value="details.date"
+                            :placeholder="date"
+                            @input="setParams(['date', $event])"
+                            :rules="[v => !!v || 'Date is required']"
+                            label="Picker in menu"
+                            prepend-icon="mdi-calendar"
+                            readonly
+                            v-on="on"
                     ></v-text-field>
                   </template>
                   <v-date-picker v-model="date" no-title scrollable>
                     <v-spacer></v-spacer>
                     <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                    <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                    <v-btn text color="primary" @click="saveDate">OK</v-btn>
                   </v-date-picker>
                 </v-menu>
               </v-flex>
@@ -54,15 +54,17 @@
                         type="text"
                         label="Description"
                         prepend-icon="mdi-comment-text"
-                        v-model="description"
+                        @input="setParams(['description', $event])"
                 ></v-text-field>
               </v-flex>
               <v-flex xs6>
                 <v-select
-                  :items="selectOptions"
-                  label="Category"
-                  prepend-icon="mdi-format-list-bulleted"
-                  v-model="category"
+                        :items="selectOptions"
+                        label="Category"
+                        :rules="[v => !!v || 'Category is required']"
+                        prepend-icon="mdi-format-list-bulleted"
+                        :placeholder="category"
+                        @input="setParams(['category', $event])"
                 ></v-select>
               </v-flex>
             </v-layout>
@@ -70,51 +72,51 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" @click="clearForm">Close</v-btn>
-          <v-btn color="blue darken-1" :disabled="!amount" @click="saveData">Save</v-btn>
+          <v-btn color="blue darken-1" @click="closeForm">Close</v-btn>
+          <v-btn color="blue darken-1" @click="saveData">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <v-speed-dial
-      v-model="fab"
-      style="right: 45px; bottom: 60px"
-      fixed
-      :top="false"
-      :bottom="true"
-      :right="true"
-      :left="false"
-      :direction="'top'"
-      :transition="'slide-y-reverse-transition'"
+            v-model="fab"
+            style="right: 45px; bottom: 60px"
+            fixed
+            :top="false"
+            :bottom="true"
+            :right="true"
+            :left="false"
+            :direction="'top'"
+            :transition="'slide-y-reverse-transition'"
     >
       <template v-slot:activator>
         <v-btn
-          color="blue darken-4"
-          v-model="fab"
-          fab
-          dark
-          fixed
-          bottom
-          right
-          medium
+                color="blue darken-4"
+                v-model="fab"
+                fab
+                dark
+                fixed
+                bottom
+                right
+                medium
         >
           <v-icon medium>mdi-tooltip-plus-outline</v-icon>
         </v-btn>
       </template>
       <v-btn
-        fab
-        dark
-        small
-        color="green"
-        @click="openModal('income')"
+              fab
+              dark
+              small
+              color="green"
+              @click="openModal('income')"
       >
         <v-icon medium>mdi-currency-usd</v-icon>
       </v-btn>
       <v-btn
-        fab
-        dark
-        small
-        color="red"
-        @click="openModal('expense')"
+              fab
+              dark
+              small
+              color="red"
+              @click="openModal('expense')"
       >
         <v-icon medium>mdi-arrow-bottom-right</v-icon>
       </v-btn>
@@ -123,8 +125,8 @@
 </template>
 
 <script>
-  import { mapMutations, mapState } from 'vuex';
-  
+  import { mapMutations, mapState, mapActions } from 'vuex';
+
   export default {
     name: "Modal",
     props: ['value'],
@@ -144,34 +146,28 @@
     methods: {
       ...mapMutations([
         'setData',
-        'editObject'
+        'editObject',
+        'setParams',
+        'setCurrentItem',
+        'setDetailsParams'
       ]),
-      getAmount(val){
-        if(!this.objectToEdit){
-          this.amount = val;
-        } else {
-          this.editObject(['amount', val])
-        }
+      ...mapActions([
+        'saveParams'
+      ]),
+      saveDate(){
+        this.$refs.menu.save(this.date);
+        this.setParams(['date', this.date])
       },
-      getDate(val){
-        if(!this.objectToEdit){
-          this.date = val;
-        } else {
-          this.editObject(['date', val])
-        }
+      closeForm(){
+        this.$refs.form.resetValidation();
+        this.$emit('input', false);
       },
       saveData(){
-        let data = {
-          description: this.description,
-          amount: +this.amount,
-          date: this.date,
-          category: this.category,
-          type: this.label,
-          id: this.randomId()
-        };
-        this.setData([this.label, data]);
-        this.$emit('input', false);
-        this.clearForm();
+        if(this.$refs.form.validate()){
+          this.setDetailsParams();
+          this.clearForm();
+          this.$emit('input', false);
+        }
       },
       uppercase(word){
         if(!word){
@@ -185,6 +181,7 @@
       openModal(val){
         this.$emit('input', true);
         this.label = val;
+        this.setCurrentItem(val);
       },
       clearForm(){
         this.amount = 0;
@@ -203,7 +200,7 @@
         return options;
       },
       ...mapState([
-        'objectToEdit'
+        'details'
       ])
     }
   }
