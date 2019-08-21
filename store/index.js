@@ -1,9 +1,11 @@
+import Vue from 'vue';
+
 export default {
   state() {
     return {
       incomes: [],
       expenses: [
-        {
+        /*{
           amount:100,
           category:"Clothing",
           date:"2019-08-18",
@@ -50,7 +52,7 @@ export default {
           description:"",
           type:"expense",
           id: 11231
-        }
+        }*/
       ],
       details: {},
       currentItem: '',
@@ -80,10 +82,11 @@ export default {
       state.objectToEdit[payload[0]] = payload[1]
     },
     setDetailsParams(state){
-      state.currentItem === 'income' ? state.incomes.push(state.details) : state.expenses.push(state.details)
+      state.currentItem === 'income' ? state.incomes.push(state.details) : state.expenses.push(state.details);
+      state.details = {};
     },
-    setParams(state, payload){
-      state.details[payload[0]] = payload[1]
+    setParams(state, [param, value]){
+      Vue.set(state.details, param, value);
     },
     setCurrentItem(state, payload){
       state.currentItem = payload;
@@ -96,7 +99,6 @@ export default {
     saveParams({state, commit}){
       commit('setLoading', true);
       setTimeout(() => {
-        //state.currentItem === 'income' ? state.incomes.push(state.details) : state.expenses.push(state.details)
         commit('setDetailsParams');
       }, 2000);
       commit('setLoading', false);
@@ -111,9 +113,11 @@ export default {
       let incomesCount = 0;
       let expensesCount = 0;
       for(let i in incomesCopy){
+        incomesCopy[i].amount = +incomesCopy[i].amount;
         incomesCount = incomesCopy[i].amount += incomesCount
       }
       for(let i in expensesCopy){
+        expensesCopy[i].amount = +expensesCopy[i].amount;
         expensesCount = expensesCopy[i].amount += expensesCount
       }
       return {

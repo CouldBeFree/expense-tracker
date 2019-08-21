@@ -69,9 +69,9 @@
         let holder = {};
         this.expense.forEach(el => {
           if (holder.hasOwnProperty(el.category)) {
-            holder[el.category] = holder[el.category] + el.amount;
+            holder[el.category] = holder[el.category] + +el.amount;
           } else {
-            holder[el.category] = el.amount;
+            holder[el.category] = +el.amount;
           }
         });
     

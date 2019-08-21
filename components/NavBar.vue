@@ -12,6 +12,18 @@
         <span>Reports</span>
       </v-layout>
     </nuxt-link>
+    <nuxt-link to="/login" exact>
+      <v-layout column align-center>
+        <v-icon>mdi-login-variant</v-icon>
+        <span>Login</span>
+      </v-layout>
+    </nuxt-link>
+    <nuxt-link to="/register" exact>
+      <v-layout column align-center>
+        <v-icon>mdi-account-plus-outline</v-icon>
+        <span>Register</span>
+      </v-layout>
+    </nuxt-link>
   </div>
 </template>
 

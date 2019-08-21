@@ -165,7 +165,8 @@
       saveData(){
         if(this.$refs.form.validate()){
           this.setDetailsParams();
-          this.clearForm();
+          this.$refs.form.reset();
+          //this.clearForm();
           this.$emit('input', false);
         }
       },

@@ -8,7 +8,7 @@
       :options="incomes"
       @delete="removeItem"
     ></data-table>
-    <modal></modal>
+    <modal v-model="isOpen"></modal>
   </v-container>
 </template>
 
@@ -20,6 +20,11 @@
   
   export default {
     name: "incomes",
+    data(){
+      return{
+        isOpen: false
+      }
+    },
     components: {
       DatePicker,
       Modal,
