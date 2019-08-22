@@ -8,9 +8,11 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "server": "nodemon ./server/index.js"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.6.0",
     "chart.js": "^2.8.0",
     "hchs-vue-charts": "^1.2.8",
     "nuxt": "^2.0.0"

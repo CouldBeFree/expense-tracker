@@ -5,10 +5,10 @@
       <v-flex xs4>
         <v-form ref="form">
           <v-text-field
-              label="Username"
-              type="text"
+              label="Email"
+              type="email"
               :rules="[v => !!v || 'Name is required']"
-              v-model="username"
+              v-model="email"
           ></v-text-field>
           <v-text-field
               label="Password"
@@ -35,7 +35,7 @@
     name: "login",
     data(){
       return{
-        username: '',
+        email: '',
         password: ''
       }
     },

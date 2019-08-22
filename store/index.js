@@ -56,6 +56,9 @@ export default {
       ],
       details: {},
       currentItem: '',
+      user: {},
+      token: {},
+      status: '',
       loading: false
     }
   },
@@ -93,6 +96,15 @@ export default {
     },
     setLoading(state, payload){
       state.loading = payload;
+    },
+    setUser(state, user){
+      state.user = user
+    },
+    setToken(state, token){
+      state.token = token
+    },
+    setStatus(state, status){
+      state.status = status
     }
   },
   actions: {
@@ -101,6 +113,12 @@ export default {
       setTimeout(() => {
         commit('setDetailsParams');
       }, 2000);
+      commit('setLoading', false);
+    },
+    async registerUser({state, commit}, payload){
+      commit('setLoading', true);
+      const { data } = await this.$axios.post('/register', payload);
+      commit('setStatus', data.status);
       commit('setLoading', false);
     }
   },
@@ -125,6 +143,7 @@ export default {
         expenses: +expensesCount,
         balance: +incomesCount - expensesCount
       }
-    }
+    },
+    status: state => state.status
   }
 }
