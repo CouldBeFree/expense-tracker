@@ -21,14 +21,14 @@ module.exports = {
           userData.password = hash;
           User.create(userData)
           .then(user => {
-            res.json({status: `${user.email} registered`})
+            res.json({ok: `${user.email} registered`})
           })
           .catch(err => {
             res.send('error: ' + err)
           })
         })
       } else{
-        res.json({status: 'User already exists'})
+        res.json({error: 'User already exists'})
       }
     })
     .catch(err => {

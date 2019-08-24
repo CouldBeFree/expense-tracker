@@ -7,12 +7,12 @@
           <v-text-field
               label="Email"
               type="email"
-              :rules="[v => !!v || 'Name is required']"
+              :rules="[v => !!v || 'E-mail is required', v => /.+@.+/.test(v) || 'E-mail must be valid']"
               v-model="email"
           ></v-text-field>
           <v-text-field
               label="Password"
-              type="text"
+              type="password"
               :rules="[v => !!v || 'Password is required']"
               v-model="password"
           ></v-text-field>
@@ -25,23 +25,51 @@
             </v-btn>
           </div>
         </v-form>
+        <v-alert class="mt-2" :type="type" v-if="user && isVisible" transition="scale-transition">
+          {{user.error || 'You succesfuly logged in'}}
+        </v-alert>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+  import { mapActions, mapGetters } from 'vuex'
+  
   export default {
     name: "login",
     data(){
       return{
         email: '',
-        password: ''
+        password: '',
+        isVisible: true
       }
     },
     methods: {
+      ...mapActions([
+        'loginUser'
+      ]),
       submit(){
-        this.$refs.form.validate();
+        const user = {
+          email: this.email,
+          password: this.password
+        };
+        if(this.$refs.form.validate()){
+          this.isVisible = true;
+          this.loginUser(user);
+          setTimeout(() => {
+            this.isVisible = false
+          }, 5000)
+        }
+      }
+    },
+    computed:{
+      ...mapGetters([
+        'status',
+        'user'
+      ]),
+      type: function () {
+        return this.user ? 'info' : 'error'
       }
     }
   }

@@ -57,7 +57,6 @@ export default {
       details: {},
       currentItem: '',
       user: {},
-      token: {},
       status: '',
       loading: false
     }
@@ -118,7 +117,13 @@ export default {
     async registerUser({state, commit}, payload){
       commit('setLoading', true);
       const { data } = await this.$axios.post('/register', payload);
-      commit('setStatus', data.status);
+      commit('setStatus', data);
+      commit('setLoading', false);
+    },
+    async loginUser({state, commit}, payload){
+      commit('setLoading', true);
+      const { data } = await this.$axios.post('/login', payload);
+      commit('setUser', data);
       commit('setLoading', false);
     }
   },
@@ -144,6 +149,7 @@ export default {
         balance: +incomesCount - expensesCount
       }
     },
-    status: state => state.status
+    status: state => state.status,
+    user: state => state.user
   }
 }

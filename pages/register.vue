@@ -31,8 +31,8 @@
            </v-btn>
          </div>
        </v-form>
-       <v-alert type="info" v-if="status" transition="scale-transition">
-         {{status}}
+       <v-alert class="mt-2" :type="type" v-if="status" transition="scale-transition">
+         {{status.ok || status.error}}
        </v-alert>
      </v-flex>
    </v-layout>
@@ -75,7 +75,10 @@
    computed: {
      ...mapGetters([
        'status'
-     ])
+     ]),
+     type: function () {
+       return this.status.ok ? 'info' : 'error'
+     }
    }
  }
 </script>

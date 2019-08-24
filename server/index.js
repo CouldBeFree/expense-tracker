@@ -1,13 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const logger = require('morgan');
 const cors = require('cors');
 
 // Initialize application
 const app = express();
 app.use(cors());
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
