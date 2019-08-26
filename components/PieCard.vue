@@ -1,5 +1,5 @@
 <template>
-    <client-only>
+    <no-ssr>
         <div v-if="options.length">
             <chartjs-doughnut
                     :labels="labels"
@@ -14,7 +14,7 @@
         <div v-else class="d-flex justify-center align-center" style="height: 100%">
             <v-icon color="primary" size="100">mdi-chart-arc</v-icon>
         </div>
-    </client-only>
+    </no-ssr>
 </template>
 
 <script>

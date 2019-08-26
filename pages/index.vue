@@ -69,7 +69,7 @@
   import BarCard from "../components/BarCard";
   import TotalCard from "../components/TotalCard";
   import Modal from "../components/Modal";
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapMutations } from 'vuex';
 
   export default {
     components: {
@@ -79,10 +79,21 @@
       TotalCard,
       Modal
     },
+    mounted(){
+      if(process.browser){
+        const token = localStorage.getItem('authToken');
+        token ? this.setToken(token) : false;
+      }
+    },
     data(){
       return {
         isOpen: false
       }
+    },
+    methods: {
+      ...mapMutations([
+        'setToken'
+      ])
     },
     computed: {
       ...mapGetters([

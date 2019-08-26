@@ -1,18 +1,16 @@
 <template>
   <v-container>
-    <v-card class="pt-2">
-      <v-layout justify-center>
-        <date-picker></date-picker>
-      </v-layout>
-      <h2>Expenses</h2>
-      <data-table
-        @delete="removeItem"
-        @edit="editItem"
-        :options="expense"
-      ></data-table>
-    </v-card>
+    <v-layout justify-center>
+      <date-picker></date-picker>
+    </v-layout>
+    <h2 class="text-center mt-2 mb-2">Expenses</h2>
+    <data-table
+            @delete="removeItem"
+            @edit="editItem"
+            :options="expense"
+    ></data-table>
     <modal
-      v-model="isOpen"
+            v-model="isOpen"
     ></modal>
   </v-container>
 </template>

@@ -53,7 +53,7 @@ module.exports = {
           });
           res.json({
             token: token,
-            user: user
+            //user: user
           })
         } else {
           res.json({error: 'User does not exist'})

@@ -12,13 +12,19 @@
         <span>Reports</span>
       </v-layout>
     </nuxt-link>
-    <nuxt-link to="/login" exact>
+    <nuxt-link v-if="!token" to="/login" exact>
       <v-layout column align-center>
         <v-icon>mdi-login-variant</v-icon>
         <span>Login</span>
       </v-layout>
     </nuxt-link>
-    <nuxt-link to="/register" exact>
+    <button @click="logout" v-else class="logout">
+      <v-layout column align-center justify-center>
+        <v-icon>mdi-logout-variant</v-icon>
+        <span>Logout</span>
+      </v-layout>
+    </button>
+    <nuxt-link v-if="!token" to="/register" exact>
       <v-layout column align-center>
         <v-icon>mdi-account-plus-outline</v-icon>
         <span>Register</span>
@@ -28,34 +34,69 @@
 </template>
 
 <script>
+  import { mapGetters, mapMutations } from 'vuex'
+  
   export default {
-    name: "NavBar"
+    name: "NavBar",
+    methods: {
+      logout(){
+        if(process.browser){
+          localStorage.removeItem('authToken');
+          this.setToken('');
+        }
+      },
+      ...mapMutations([
+        'setToken'
+      ])
+    },
+    computed: {
+      ...mapGetters([
+        'token'
+      ])
+    }
   }
 </script>
 
 <style scoped lang="scss">
+  .logout{
+    width: 100%;
+    
+    .layout{
+      padding: 10px 5px;
+      color: #646464;
+      
+      &:hover{
+        background: rgba(0, 0, 0, 0.12)
+      }
+    }
+  
+    &:focus{
+      outline: 0;
+    }
+  }
+  
   .nav{
     background: #ffffff;
     transition-property: box-shadow, opacity;
     box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-
+    
     a{
       text-decoration: none;
-
+      
       .layout{
         padding: 10px 5px;
         color: #646464;
-
+        
         &:hover{
           background: rgba(0,0,0,.12);
         }
       }
-
+      
       &.nuxt-link-active{
         span{
           color: #3350b9;
         }
-
+        
         i{
           color: #3350b9 !important;
           caret-color: #3350b9 !important;

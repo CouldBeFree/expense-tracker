@@ -57,6 +57,8 @@ export default {
       details: {},
       currentItem: '',
       user: {},
+      token: '',
+      error: '',
       status: '',
       loading: false
     }
@@ -99,8 +101,15 @@ export default {
     setUser(state, user){
       state.user = user
     },
+    setError(state, error){
+      state.error = error
+    },
     setToken(state, token){
-      state.token = token
+      state.token = token;
+      this.$router.push({ path: '/' });
+      if(process.browser){
+        localStorage.setItem('authToken', token);
+      }
     },
     setStatus(state, status){
       state.status = status
@@ -123,7 +132,7 @@ export default {
     async loginUser({state, commit}, payload){
       commit('setLoading', true);
       const { data } = await this.$axios.post('/login', payload);
-      commit('setUser', data);
+      data.token ? commit('setToken', data.token) : commit('setError', data.error);
       commit('setLoading', false);
     }
   },
@@ -150,6 +159,8 @@ export default {
       }
     },
     status: state => state.status,
-    user: state => state.user
+    user: state => state.user,
+    token: state => state.token,
+    error: state => state.error
   }
 }

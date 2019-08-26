@@ -26,7 +26,7 @@
           </div>
         </v-form>
         <v-alert class="mt-2" :type="type" v-if="user && isVisible" transition="scale-transition">
-          {{user.error || 'You succesfuly logged in'}}
+          {{token ? 'You successfuly logged in' : error}}
         </v-alert>
       </v-flex>
     </v-layout>
@@ -42,7 +42,7 @@
       return{
         email: '',
         password: '',
-        isVisible: true
+        isVisible: false
       }
     },
     methods: {
@@ -65,8 +65,9 @@
     },
     computed:{
       ...mapGetters([
-        'status',
-        'user'
+        'user',
+        'token',
+        'error'
       ]),
       type: function () {
         return this.user ? 'info' : 'error'

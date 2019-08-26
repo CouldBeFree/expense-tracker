@@ -3,7 +3,7 @@
     <v-layout justify-center>
       <date-picker></date-picker>
     </v-layout>
-    <h2>Incomes</h2>
+    <h2 class="text-center mt-2 mb-2">Incomes</h2>
     <data-table
       :options="incomes"
       @delete="removeItem"

@@ -1,5 +1,5 @@
 <template>
-  <client-only>
+  <no-ssr>
     <div>
       <v-data-table
               :headers="headers"
@@ -24,10 +24,11 @@
         </template>
       </v-data-table>
     </div>
-  </client-only>
+  </no-ssr>
 </template>
 
 <script>
+  
   export default {
     name: "DataTable",
     props: ['options'],
