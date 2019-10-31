@@ -2,23 +2,38 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const morgan = require('morgan');
+const dotenv = require('dotenv');
+
+const errorHandler = require('./middleware/error');
 
 // Initialize application
 const app = express();
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan('dev'));
+
+dotenv.config({ path: './config/config.env' });
 
 // Routes
-const user = require('./routes/user');
+const auth = require('./routes/auth');
 
 // Mount routes
-app.use('/', user);
+app.use('/api/v1/auth', auth);
 
-const port = 5050;
+app.use(errorHandler);
+
+const port = process.env.PORT;
 
 //DB connection
-mongoose.connect('mongodb://localhost:27017/expense-tracker', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/expense-tracker',
+  {
+    useNewUrlParser: true,
+    createIndexes: true
+  }
+);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
