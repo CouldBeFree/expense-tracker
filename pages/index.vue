@@ -80,10 +80,10 @@
       Modal
     },
     mounted(){
-      if(process.browser){
+      /*if(process.browser){
         const token = localStorage.getItem('authToken');
         token ? this.setToken(token) : false;
-      }
+      }*/
     },
     data(){
       return {

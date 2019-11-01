@@ -25,9 +25,9 @@
             </v-btn>
           </div>
         </v-form>
-        <v-alert class="mt-2" :type="type" v-if="user && isVisible" transition="scale-transition">
+        <!--<v-alert class="mt-2" :type="type" v-if="user && isVisible" transition="scale-transition">
           {{token ? 'You successfuly logged in' : error}}
-        </v-alert>
+        </v-alert>-->
       </v-flex>
     </v-layout>
   </v-container>
@@ -35,7 +35,8 @@
 
 <script>
   import { mapActions, mapGetters } from 'vuex'
-  
+  import {getters} from "../store/auth";
+
   export default {
     name: "login",
     data(){
@@ -46,9 +47,9 @@
       }
     },
     methods: {
-      ...mapActions([
-        'loginUser'
-      ]),
+      ...mapActions({
+        loginUser: 'auth/loginUser'
+      }),
       submit(){
         const user = {
           email: this.email,
@@ -64,11 +65,9 @@
       }
     },
     computed:{
-      ...mapGetters([
-        'user',
-        'token',
-        'error'
-      ]),
+      ...mapGetters("auth", {
+        user: state => state.user.auth.user
+      }),
       type: function () {
         return this.user ? 'info' : 'error'
       }
