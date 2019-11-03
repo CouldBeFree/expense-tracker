@@ -19,9 +19,13 @@ dotenv.config({ path: './config/config.env' });
 
 // Routes
 const auth = require('./routes/auth');
+const incomes = require('./routes/incomes');
+const expenses = require('./routes/expenses');
 
 // Mount routes
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/incomes', incomes);
+app.use('/api/v1/expenses', expenses);
 
 app.use(errorHandler);
 
@@ -31,7 +35,7 @@ const port = process.env.PORT;
 mongoose.connect('mongodb://localhost:27017/expense-tracker',
   {
     useNewUrlParser: true,
-    createIndexes: true
+    useCreateIndex: true
   }
 );
 

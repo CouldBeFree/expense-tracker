@@ -30,7 +30,17 @@ const UserSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  incomes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Incomes',
+    default: []
+  }],
+  expenses: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Expenses',
+    default: []
+  }]
 });
 
 // Encrypt password
@@ -71,5 +81,8 @@ UserSchema.methods.getResetPasswordToken = async function(){
   return resetToken;
 };
 
+UserSchema.pre('find', function() {
+  this.populate('incomes')
+});
 
 module.exports = mongoose.model('User', UserSchema);

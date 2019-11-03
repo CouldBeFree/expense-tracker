@@ -72,7 +72,11 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/me
 // @access  Private
 exports.getMe = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
+  //const user = await User.findById(req.user.id);
+  const user = await User.find({_id: req.user.id});
+  /*const test = await User.findById(req.user.id).populate('incomes').exec((err, incomes) => {
+    console.log("Populated User " + incomes);
+  });*/
 
   res.status(200).json({
     success: true,
