@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Schema = mongoose.Schema;
 const crypto = require('crypto');
+const Expenses = require('./Expenses');
 
 const UserSchema = new Schema({
   username: {
@@ -81,8 +82,16 @@ UserSchema.methods.getResetPasswordToken = async function(){
   return resetToken;
 };
 
-UserSchema.pre('find', function() {
-  this.populate('incomes')
+UserSchema.pre('find', async function() {
+  this.populate('incomes').populate('expenses');
+
+  const aggr = await Expenses.aggregate(
+    [
+      { $group: {_id: "$user", total: { $sum: "$amount" } } }
+    ]
+  );
+
+  console.log(aggr);
 });
 
 module.exports = mongoose.model('User', UserSchema);

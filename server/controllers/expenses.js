@@ -1,70 +1,70 @@
-const Incomes = require('../models/Incomes');
+const Expenses = require('../models/Expenses');
 const asyncHandler = require('../middleware/async');
 const errorResponse = require('../utils/errorResponse');
 
-// @desc    Post income
-// @route   POST /api/v1/incomes
+// @desc    Post expenses
+// @route   POST /api/v1/expenses
 // @access  Private
-exports.setIncome = asyncHandler(async (req, res, next) => {
+exports.setExpense = asyncHandler(async (req, res, next) => {
   req.body.user = req.user.id;
-  
-  const income = await Incomes.create(req.body);
-  
+
+  const expenses = await Expenses.create(req.body);
+
   res.status(200).json({
     success: 200,
-    data: income
-  })
+    data: expenses
+  });
 });
 
-// @desc    Update income
-// @route   PUT /api/v1/incomes/:id
+// @desc    Update expenses
+// @route   PUT /api/v1/expenses/:id
 // @access  Private
-exports.updateIncome = asyncHandler(async (req, res, next) => {
-  let income = await Incomes.findById(req.params.id);
-  
-  if(!income){
+exports.updateExpense = asyncHandler(async (req, res, next) => {
+  let expenses = await Expenses.findById(req.params.id);
+
+  if(!expenses){
     return next(new errorResponse(`Income not found with id of ${req.params.id}`, 404))
   }
-  
-  income = await Incomes.findOneAndUpdate({_id: req.params.id}, req.body, {
+
+  expenses = await Expenses.findOneAndUpdate({_id: req.params.id}, req.body, {
     new: true,
     runValidators: true
   });
-  
+
   res.status(200).json({
     success: 200,
-    data: income
+    data: expenses
   })
 });
 
-// @desc    Get income
-// @route   GET /api/v1/incomes/:id
+// @desc    Get expenses
+// @route   GET /api/v1/expenses/:id
 // @access  Private
-exports.getIncome = asyncHandler(async (req, res, next) => {
-  let income = await Incomes.findById(req.params.id);
-  
-  if(!income){
+exports.getExpense = asyncHandler(async (req, res, next) => {
+  let expenses = await Expenses.findById(req.params.id);
+
+  if(!expenses){
     return next(new errorResponse(`Income not found with id of ${req.params.id}`, 404))
   }
-  
+
   res.status(200).json({
     success: 200,
-    data: income
+    data: expenses
   })
 });
 
-// @desc    Remove income
-// @route   DELETE /api/v1/incomes/:id
+// @desc    Remove expenses
+// @route   DELETE /api/v1/expenses/:id
 // @access  Private
-exports.removeIncome = asyncHandler(async (req, res, next) => {
-  let income = await Incomes.findById(req.params.id);
-  
-  if(!income){
+exports.removeExpense = asyncHandler(async (req, res, next) => {
+  let expenses = await Expenses.findById(req.params.id);
+
+  if(!expenses){
     return next(new errorResponse(`Income not found with id of ${req.params.id}`, 404))
   }
-  
-  income.remove();
-  
+
+  expenses.remove();
+
   res.status(200).json({
     success: 200,
     data: {}
@@ -72,9 +72,9 @@ exports.removeIncome = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Get incomes
-// @route   GET /api/v1/incomes?date
+// @route   GET /api/v1/expenses?date
 // @access  Private
-exports.getIncomes = asyncHandler(async (req, res, next) => {
+exports.getExpenses = asyncHandler(async (req, res, next) => {
   const reqQuery = { ...req.query };
 
   let date = reqQuery.date;
@@ -87,7 +87,7 @@ exports.getIncomes = asyncHandler(async (req, res, next) => {
   console.log(date);
   console.log(endDate);
 
-  const incomes = await Incomes.find({
+  const incomes = await Expenses.find({
     "date": { $gte: date, $lte: endDate }
   });
 
