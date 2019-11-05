@@ -85,11 +85,31 @@ UserSchema.methods.getResetPasswordToken = async function(){
 UserSchema.pre('find', async function() {
   this.populate('incomes').populate('expenses');
 
-  const aggr = await Expenses.aggregate(
+  /*const aggr = await Expenses.aggregate(
     [
-      { $group: {_id: "$user", total: { $sum: "$amount" } } }
+      { $group: {mon: "$user", total: { $sum: "$amount" } } }
     ]
-  );
+  );*/
+
+  let aggr;
+
+  try{
+    aggr = await Expenses.aggregate(
+      [
+        {
+          $match: { date : { $gte: "2019-10-01", $lte: "2019-10-31"} }
+        },
+        {
+          $group: {
+            _id: {month: { $month: new Date("2019-10-01") }},
+            total: { "$sum": "$amount" }
+          }
+        }
+      ]
+    );
+  }catch (e) {
+    console.log(e);
+  }
 
   console.log(aggr);
 });
