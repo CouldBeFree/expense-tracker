@@ -21,11 +21,13 @@ dotenv.config({ path: './config/config.env' });
 const auth = require('./routes/auth');
 const incomes = require('./routes/incomes');
 const expenses = require('./routes/expenses');
+const total = require('./routes/total');
 
 // Mount routes
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/incomes', incomes);
 app.use('/api/v1/expenses', expenses);
+app.use('/api/v1/total', total);
 
 app.use(errorHandler);
 

@@ -84,15 +84,14 @@ exports.getExpenses = asyncHandler(async (req, res, next) => {
   endDate = endDate.substring(0, date.length - 3);
   endDate = endDate += '-31';
 
-  console.log(date);
-  console.log(endDate);
-
   const incomes = await Expenses.find({
-    "date": { $gte: date, $lte: endDate }
+    "date": { $gte: date, $lte: endDate },
+    "user": req.user._id
   });
 
   res.status(200).json({
     success: 200,
+    count: incomes.length,
     data: incomes
   })
 });

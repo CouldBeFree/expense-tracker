@@ -84,15 +84,7 @@ UserSchema.methods.getResetPasswordToken = async function(){
 
 UserSchema.pre('find', async function() {
   this.populate('incomes').populate('expenses');
-
-  /*const aggr = await Expenses.aggregate(
-    [
-      { $group: {mon: "$user", total: { $sum: "$amount" } } }
-    ]
-  );*/
-
   let aggr;
-
   try{
     aggr = await Expenses.aggregate(
       [
