@@ -48,6 +48,7 @@
   import DatePicker from "../components/DatePicker";
 
   export default {
+    middleware: 'auth',
     name: 'reports',
     components: {
       DatePicker,
@@ -74,7 +75,7 @@
             holder[el.category] = +el.amount;
           }
         });
-    
+
         let target = [];
         for (let prop in holder) {
           target.push({ category: prop, amount: holder[prop] });

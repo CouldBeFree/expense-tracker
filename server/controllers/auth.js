@@ -9,15 +9,15 @@ const sendEmail = require('../utils/sendEmail');
 // @access  Public
 exports.registerUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
-  
+
     const user = await User.create({
       username,
       email,
       password
     });
-    
+
     const token = user.getSignedJwtToken();
-    
+
     res.status(200).json({
       success: true,
       token
@@ -39,13 +39,21 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({email}).select('+password');
 
   if(!user){
-    return next(new errorResponse('Invalid credentials', 400));
+    //return next(new errorResponse('Invalid credentials', 400));
+    res.send(200).json({
+      success: false,
+      data: 'Invalid credentials'
+    })
   }
 
   const isMatch = await user.matchPassword(password);
 
   if(!isMatch){
-    return next(new errorResponse('Invalid credentials', 400));
+    //return next(new errorResponse('Invalid credentials', 400));
+    res.send(200).json({
+      success: false,
+      data: 'Invalid credentials'
+    })
   }
 
   sendTokenResponse(user, 200, res);
@@ -72,11 +80,7 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/me
 // @access  Private
 exports.getMe = asyncHandler(async (req, res, next) => {
-  //const user = await User.findById(req.user.id);
   const user = await User.find({_id: req.user.id});
-  /*const test = await User.findById(req.user.id).populate('incomes').exec((err, incomes) => {
-    console.log("Populated User " + incomes);
-  });*/
 
   res.status(200).json({
     success: true,

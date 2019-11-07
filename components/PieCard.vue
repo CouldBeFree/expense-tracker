@@ -1,6 +1,6 @@
 <template>
-    <no-ssr>
-        <div v-if="options.length">
+    <client-only>
+        <!--<div v-if="options.length">
             <chartjs-doughnut
                     :labels="labels"
                     :option="option"
@@ -13,8 +13,8 @@
         </div>
         <div v-else class="d-flex justify-center align-center" style="height: 100%">
             <v-icon color="primary" size="100">mdi-chart-arc</v-icon>
-        </div>
-    </no-ssr>
+        </div>-->
+    </client-only>
 </template>
 
 <script>
@@ -35,7 +35,7 @@
       }
     },
     computed: {
-      refactoredData: function () {
+      /*refactoredData: function () {
         let holder = {};
         this.options.forEach(el => {
           if (holder.hasOwnProperty(el.category)) {
@@ -59,7 +59,7 @@
       },
       colors: function () {
         return this.label === 'expense' ? expenses : incomes;
-      }
+      }*/
     }
   }
 </script>

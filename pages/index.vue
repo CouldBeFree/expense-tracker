@@ -3,27 +3,27 @@
     <v-layout>
       <v-flex xs4>
         <balance-card
-          :balance="count.balance || '0'"
+          balance="0"
         ></balance-card>
       </v-flex>
       <v-flex xs4>
         <balance-card
           xs4
-          :incomes="count.incomes || '0'"
+          incomes="0"
           :path="'/incomes'"
         ></balance-card>
       </v-flex>
       <v-flex xs4>
         <balance-card
           xs4
-          :expenses="count.expenses || '0'"
+          expenses= "0"
           :path="'/expenses'"
         ></balance-card>
       </v-flex>
       <v-flex xs4>
         <balance-card
           xs4
-          :savings="count.balance || '0'"
+          savings="0"
         ></balance-card>
       </v-flex>
     </v-layout>
@@ -32,7 +32,7 @@
         <v-card height="300">
           <pie-card
             label="expense"
-            :options="expense"
+            options="expense"
           ></pie-card>
         </v-card>
       </v-flex>
@@ -51,9 +51,9 @@
       </v-flex>
       <v-flex xs6>
         <total-card
-          :income="count.incomes"
-          :expenses="count.expenses"
-          :savings="count.balance"
+          income="100"
+          expenses="100"
+          savings="100"
         ></total-card>
       </v-flex>
     </v-layout>
@@ -69,9 +69,10 @@
   import BarCard from "../components/BarCard";
   import TotalCard from "../components/TotalCard";
   import Modal from "../components/Modal";
-  import { mapGetters, mapMutations } from 'vuex';
+  import { mapActions, mapMutations } from 'vuex';
 
   export default {
+    middleware: 'auth',
     components: {
       BalanceCard,
       PieCard,
@@ -79,28 +80,16 @@
       TotalCard,
       Modal
     },
-    mounted(){
-      /*if(process.browser){
-        const token = localStorage.getItem('authToken');
-        token ? this.setToken(token) : false;
-      }*/
-    },
     data(){
       return {
         isOpen: false
       }
     },
     methods: {
-      ...mapMutations([
-        'setToken'
-      ])
+
     },
     computed: {
-      ...mapGetters([
-        'incomes',
-        'expense',
-        'count'
-      ])
+
     }
   }
 </script>

@@ -25,22 +25,23 @@
          <div class="d-flex justify-end">
            <v-btn
              color="primary"
+             :loading="loading"
              @click="submit"
            >
              Register
            </v-btn>
          </div>
        </v-form>
-       <v-alert class="mt-2" :type="type" v-if="status" transition="scale-transition">
-         {{status.ok || status.error}}
-       </v-alert>
+       <div>
+         <p class="text-center mt-5">If you already have an account you can login <nuxt-link :to="'/login'">login</nuxt-link></p>
+       </div>
      </v-flex>
    </v-layout>
  </v-container>
 </template>
 
 <script>
-  import { mapActions, mapMutations, mapGetters } from 'vuex'
+  import { mapActions, mapMutations, mapState } from 'vuex'
 
  export default {
    name: "register",
@@ -60,25 +61,15 @@
        };
        if(this.$refs.form.validate()){
          this.registerUser(payload);
-         setTimeout(() => {
-           this.setStatus('')
-         }, 5000)
        }
      },
-     ...mapActions([
-       'registerUser'
-     ]),
-     ...mapMutations([
-       'setStatus'
-     ])
+     ...mapActions('auth', ['registerUser']),
+     ...mapMutations('auth', ['setStatus'])
    },
    computed: {
-     ...mapGetters([
-       'status'
-     ]),
-     type: function () {
-       return this.status.ok ? 'info' : 'error'
-     }
+     ...mapState('auth', {
+       loading: state => state.loading
+     })
    }
  }
 </script>

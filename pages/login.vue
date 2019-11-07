@@ -20,57 +20,60 @@
             <v-btn
                 color="primary"
                 @click="submit"
+                :loading="loading"
             >
               Login
             </v-btn>
           </div>
         </v-form>
-        <!--<v-alert class="mt-2" :type="type" v-if="user && isVisible" transition="scale-transition">
-          {{token ? 'You successfuly logged in' : error}}
-        </v-alert>-->
+        <div>
+          <p class="text-center mt-5">If dont have an account you can register <nuxt-link :to="'/register'">register</nuxt-link></p>
+        </div>
+        <v-alert
+            v-if="error"
+            dense
+            outlined
+            type="error"
+            transition="scale-transition"
+        >
+          Invalid credentials
+        </v-alert>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-  import { mapActions, mapGetters } from 'vuex'
-  import {getters} from "../store/auth";
+  import { mapActions, mapState } from 'vuex'
 
   export default {
     name: "login",
     data(){
       return{
         email: '',
-        password: '',
-        isVisible: false
+        password: ''
       }
     },
     methods: {
       ...mapActions({
         loginUser: 'auth/loginUser'
       }),
-      submit(){
+      async submit(){
         const user = {
           email: this.email,
           password: this.password
         };
         if(this.$refs.form.validate()){
-          this.isVisible = true;
-          this.loginUser(user);
-          setTimeout(() => {
-            this.isVisible = false
-          }, 5000)
+          await this.loginUser(user);
         }
       }
     },
     computed:{
-      ...mapGetters("auth", {
-        user: state => state.user.auth.user
-      }),
-      type: function () {
-        return this.user ? 'info' : 'error'
-      }
+      ...mapState("auth", {
+        token: state => state.token,
+        error: state => state.error,
+        loading: state => state.loading
+      })
     }
   }
 </script>

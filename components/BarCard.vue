@@ -1,5 +1,5 @@
 <template>
-    <no-ssr>
+    <client-only>
         <v-card>
             <v-card-title class="subtitle-1">Incomes x Expenses for the last 6 months</v-card-title>
             <chartjs-bar
@@ -7,7 +7,7 @@
                     :datasets="mydatasets"
             ></chartjs-bar>
         </v-card>
-    </no-ssr>
+    </client-only>
 </template>
 
 <script>

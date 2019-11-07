@@ -1,11 +1,9 @@
-/*
-export default function () {
-  if(process.browser){
-    const token = localStorage.getItem('authToken');
-    if(token){
-      return alert('User')
-    } else {
-      return alert('No user')
+export default async function ({ store, redirect }) {
+  if(process.client){
+    const token = store.state.auth.token;
+    if(!token){
+      store.commit('auth/showSnackBar', true);
+      return redirect('/login');
     }
   }
-}*/
+}
