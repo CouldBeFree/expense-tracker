@@ -39,21 +39,13 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({email}).select('+password');
 
   if(!user){
-    //return next(new errorResponse('Invalid credentials', 400));
-    res.send(200).json({
-      success: false,
-      data: 'Invalid credentials'
-    })
+    return next(new errorResponse('Invalid credentials', 400));
   }
 
   const isMatch = await user.matchPassword(password);
 
   if(!isMatch){
-    //return next(new errorResponse('Invalid credentials', 400));
-    res.send(200).json({
-      success: false,
-      data: 'Invalid credentials'
-    })
+    return next(new errorResponse('Invalid credentials', 400));
   }
 
   sendTokenResponse(user, 200, res);

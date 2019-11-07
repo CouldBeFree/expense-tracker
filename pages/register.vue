@@ -35,6 +35,15 @@
        <div>
          <p class="text-center mt-5">If you already have an account you can login <nuxt-link :to="'/login'">login</nuxt-link></p>
        </div>
+       <v-alert
+               v-if="error"
+               dense
+               outlined
+               type="error"
+               transition="scale-transition"
+       >
+         {{error}}
+       </v-alert>
      </v-flex>
    </v-layout>
  </v-container>
@@ -52,6 +61,9 @@
        email: ''
      }
    },
+   mounted(){
+     this.setError('');
+   },
    methods: {
      async submit(){
        const payload = {
@@ -64,11 +76,12 @@
        }
      },
      ...mapActions('auth', ['registerUser']),
-     ...mapMutations('auth', ['setStatus'])
+     ...mapMutations('auth', ['setStatus', 'setError'])
    },
    computed: {
      ...mapState('auth', {
-       loading: state => state.loading
+       loading: state => state.loading,
+       error: state => state.error
      })
    }
  }

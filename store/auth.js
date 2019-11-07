@@ -28,30 +28,28 @@ export const actions = {
   async registerUser({state, commit}, payload){
     commit('setLoading', true);
     commit('setError', '');
-    const { data } = await this.$axios.post('auth/register', payload);
-    const { token, success } = data;
-    if(token && success){
+    try{
+      const { data } = await this.$axios.post('auth/register', payload);
+      const { token, success, error } = data;
       localStorage.setItem('authToken', token);
       commit('setToken', token);
-      this.$router.push({ path: '/' });
-    } else {
-      commit('setError', 'Account exists');
-      commit('setLoading', false);
+      await this.$router.push({ path: '/' });
+    }catch ({ response }) {
+      commit('setError', response.data.error);
     }
-    commit('setToken', token);
     commit('setLoading', false);
   },
   async loginUser({state, commit}, payload){
     commit('setLoading', true);
     commit('setError', '');
-    const { data } = await this.$axios.post('auth/login', payload);
-    const { token, success } = data;
-    if(token && success){
+    try{
+      const { data } = await this.$axios.post('auth/login', payload);
+      const { token, success } = data;
       localStorage.setItem('authToken', token);
       commit('setToken', token);
-      this.$router.push({ path: '/' });
-    } else {
-      commit('setError', 'Invalid credentials')
+      await this.$router.push({ path: '/' });
+    }catch ({ response }) {
+      commit('setError', response.data.error);
     }
     commit('setLoading', false);
   },

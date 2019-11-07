@@ -44,7 +44,7 @@
 </template>
 
 <script>
-  import { mapActions, mapState } from 'vuex'
+  import { mapActions, mapState, mapMutations } from 'vuex'
 
   export default {
     name: "login",
@@ -54,10 +54,14 @@
         password: ''
       }
     },
+    mounted(){
+      this.setError('');
+    },
     methods: {
       ...mapActions({
         loginUser: 'auth/loginUser'
       }),
+      ...mapMutations('auth', ['setError']),
       async submit(){
         const user = {
           email: this.email,
