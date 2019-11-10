@@ -20,10 +20,27 @@ export const mutations = {
   },
   setIncomeParams(state, [param, value]){
     Vue.set(state.incomeDetails, param, value);
+  },
+  setIncomes(state, incomes){
+    state.incomes = incomes
   }
 };
 
 export const actions = {
+  async getIncomes({ commit }, payload){
+    const currentToken = localStorage.getItem('authToken');
+    try{
+      const { data } = await this.$axios.get('incomes', {
+        headers: {"Authorization" : `Bearer ${currentToken}`},
+        params: {
+          date: payload
+        }
+      });
+      commit('setIncomes', data.data);
+    }catch ({response}) {
+      commit('setError', response.data.error);
+    }
+  },
   async saveIncome({state, commit}){
     const currentToken = localStorage.getItem('authToken');
     commit('setLoading', true);

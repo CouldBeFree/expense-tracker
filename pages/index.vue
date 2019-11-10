@@ -87,10 +87,13 @@
       }
     },
     methods: {
-
+      ...mapActions({
+        getIncomes: 'incomes/getIncomes',
+        getExpenses: 'expenses/getExpenses'
+      })
     },
-    computed: {
-
+    mounted() {
+    
     }
   }
 </script>

@@ -34,19 +34,26 @@
 		data () {
 			return {
         text: 'You need to login to access this page',
-        color: 'error'
+        color: 'error',
+        currentDate: new Date().toISOString().substr(0, 10)
 			}
 		},
-    mounted(){
+    async mounted(){
       const currentToken = localStorage.getItem('authToken');
 
       if(currentToken){
         this.setToken(currentToken);
+        await this.getIncomes(this.currentDate);
+        await this.getExpenses(this.currentDate);
       }
     },
     methods: {
       ...mapMutations("auth", ["showSnackBar", "setToken"]),
       ...mapActions("auth", ["getUser"]),
+      ...mapActions({
+        getIncomes: 'incomes/getIncomes',
+        getExpenses: 'expenses/getExpenses'
+      }),
       closeSnackbar(){
         this.showSnackBar(false);
       }
