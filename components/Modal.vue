@@ -12,9 +12,9 @@
                 <v-text-field
                         label="Insert value"
                         type="number"
-                        :value="details.amount"
+                        :value="incomeDetails.amount"
                         :rules="[v => !!v || 'Amount is required']"
-                        @input="setParams(['amount', $event])"
+                        @input="onInput($event, 'amount')"
                         prefix="$"
                         prepend-icon="mdi-calculator"
                 ></v-text-field>
@@ -32,9 +32,9 @@
                 >
                   <template v-slot:activator="{ on }">
                     <v-text-field
-                            :value="details.date"
+                            :value="incomeDetails.date"
                             :placeholder="date"
-                            @input="setParams(['date', $event])"
+                            @input="onInput($event, 'date')"
                             :rules="[v => !!v || 'Date is required']"
                             label="Picker in menu"
                             prepend-icon="mdi-calendar"
@@ -54,7 +54,7 @@
                         type="text"
                         label="Description"
                         prepend-icon="mdi-comment-text"
-                        @input="setParams(['description', $event])"
+                        @input="onInput($event, 'description')"
                 ></v-text-field>
               </v-flex>
               <v-flex xs6>
@@ -64,7 +64,7 @@
                         :rules="[v => !!v || 'Category is required']"
                         prepend-icon="mdi-format-list-bulleted"
                         :placeholder="category"
-                        @input="setParams(['category', $event])"
+                        @input="onInput($event, 'category')"
                 ></v-select>
               </v-flex>
             </v-layout>
@@ -73,7 +73,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" @click="closeForm">Close</v-btn>
-          <v-btn color="blue darken-1" @click="saveData">Save</v-btn>
+          <v-btn color="blue darken-1" :loading="incomesLoading" @click="saveData">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -151,22 +151,29 @@
         'setCurrentItem',
         'setDetailsParams'
       ]),
-      ...mapActions([
-        'saveParams'
-      ]),
+      ...mapMutations("incomes", ['setIncomeParams']),
+      ...mapActions({
+        saveIncome: 'incomes/saveIncome'
+      }),
+      onInput(val, category){
+        if(this.label === 'income'){
+          this.setIncomeParams([category, val])
+        }
+      },
       saveDate(){
         this.$refs.menu.save(this.date);
-        this.setParams(['date', this.date])
+        if(this.label === 'income'){
+          this.setIncomeParams(['date', this.date])
+        }
       },
       closeForm(){
         this.$refs.form.resetValidation();
         this.$emit('input', false);
       },
-      saveData(){
+      async saveData(){
         if(this.$refs.form.validate()){
-          this.setDetailsParams();
+          await this.saveIncome();
           this.$refs.form.reset();
-          //this.clearForm();
           this.$emit('input', false);
         }
       },
@@ -175,9 +182,6 @@
           return
         }
         return word.charAt(0).toUpperCase() + word.slice(1);
-      },
-      randomId(){
-        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
       },
       openModal(val){
         this.$emit('input', true);
@@ -200,9 +204,10 @@
         this.category = options[0];
         return options;
       },
-      ...mapState([
-        'details'
-      ])
+      ...mapState('incomes', {
+        incomeDetails: state => state.incomeDetails,
+        incomesLoading: state => state.incomesLoading
+      })
     }
   }
 </script>

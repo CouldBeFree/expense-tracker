@@ -82,7 +82,8 @@
     },
     data(){
       return {
-        isOpen: false
+        isOpen: false,
+        incomes: {}
       }
     },
     methods: {
