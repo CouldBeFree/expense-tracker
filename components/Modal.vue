@@ -32,7 +32,7 @@
                 >
                   <template v-slot:activator="{ on }">
                     <v-text-field
-                            :value="incomeDetails.date"
+                            :value="incomeDetails.date || expenseDetails.date"
                             :placeholder="date"
                             @input="onInput($event, 'date')"
                             :rules="[v => !!v || 'Date is required']"
@@ -73,7 +73,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" @click="closeForm">Close</v-btn>
-          <v-btn color="blue darken-1" :loading="incomesLoading" @click="saveData">Save</v-btn>
+          <v-btn color="blue darken-1" :loading="incomesLoading || expensesLoading" @click="saveData">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -144,26 +144,25 @@
       }
     },
     methods: {
-      ...mapMutations([
-        'setData',
-        'editObject',
-        'setParams',
-        'setCurrentItem',
-        'setDetailsParams'
-      ]),
       ...mapMutations("incomes", ['setIncomeParams']),
+      ...mapMutations("expenses", ['setExpenseParams']),
       ...mapActions({
-        saveIncome: 'incomes/saveIncome'
+        saveIncome: 'incomes/saveIncome',
+        saveExpense: 'expenses/saveExpense'
       }),
       onInput(val, category){
         if(this.label === 'income'){
-          this.setIncomeParams([category, val])
+          this.setIncomeParams([category, val]);
+        } else {
+          this.setExpenseParams([category, val]);
         }
       },
       saveDate(){
         this.$refs.menu.save(this.date);
         if(this.label === 'income'){
-          this.setIncomeParams(['date', this.date])
+          this.setIncomeParams(['date', this.date]);
+        } else{
+          this.setExpenseParams(['date', this.date]);
         }
       },
       closeForm(){
@@ -172,7 +171,7 @@
       },
       async saveData(){
         if(this.$refs.form.validate()){
-          await this.saveIncome();
+          this.label === 'incomes' ? await this.saveIncome() : await this.saveExpense();
           this.$refs.form.reset();
           this.$emit('input', false);
         }
@@ -186,13 +185,6 @@
       openModal(val){
         this.$emit('input', true);
         this.label = val;
-        this.setCurrentItem(val);
-      },
-      clearForm(){
-        this.amount = 0;
-        this.date = new Date().toISOString().substr(0, 10);
-        this.description = '';
-        this.$emit('input', false);
       }
     },
     computed: {
@@ -207,6 +199,10 @@
       ...mapState('incomes', {
         incomeDetails: state => state.incomeDetails,
         incomesLoading: state => state.incomesLoading
+      }),
+      ...mapState('expenses', {
+        expenseDetails: state => state.expenseDetails,
+        expensesLoading: state => state.expensesLoading
       })
     }
   }

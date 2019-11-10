@@ -11,7 +11,7 @@ export const mutations = {
   setLoading(state, payload){
     state.incomesLoading = payload;
   },
-  removeExpenseItem(state, payload){
+  removeIncomeItem(state, payload){
     const index = state.expenses.findIndex(el => el.id === payload);
     state.expenses.splice(index, 1);
   },
@@ -28,7 +28,7 @@ export const actions = {
     const currentToken = localStorage.getItem('authToken');
     commit('setLoading', true);
     try{
-      await this.$axios.post('expenses/set', state.incomeDetails, { headers: {"Authorization" : `Bearer ${currentToken}`} });
+      await this.$axios.post('incomes/set', state.incomeDetails, { headers: {"Authorization" : `Bearer ${currentToken}`} });
     }catch ({response}) {
       commit('setError', response.data.error);
     }
