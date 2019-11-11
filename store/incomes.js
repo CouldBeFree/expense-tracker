@@ -27,13 +27,13 @@ export const mutations = {
 };
 
 export const actions = {
-  async getIncomes({ commit }, payload){
+  async getIncomes({ commit, rootState }){
     const currentToken = localStorage.getItem('authToken');
     try{
       const { data } = await this.$axios.get('incomes', {
         headers: {"Authorization" : `Bearer ${currentToken}`},
         params: {
-          date: payload
+          date: rootState.common.date
         }
       });
       commit('setIncomes', data.data);

@@ -43,7 +43,6 @@
 
       if(currentToken){
         this.setToken(currentToken);
-        await this.getIncomes(this.currentDate);
         await this.getExpenses(this.currentDate);
       }
     },
@@ -51,7 +50,6 @@
       ...mapMutations("auth", ["showSnackBar", "setToken"]),
       ...mapActions("auth", ["getUser"]),
       ...mapActions({
-        getIncomes: 'incomes/getIncomes',
         getExpenses: 'expenses/getExpenses'
       }),
       closeSnackbar(){

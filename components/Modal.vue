@@ -171,7 +171,7 @@
       },
       async saveData(){
         if(this.$refs.form.validate()){
-          this.label === 'incomes' ? await this.saveIncome() : await this.saveExpense();
+          this.label === 'income' ? await this.saveIncome() : await this.saveExpense();
           this.$refs.form.reset();
           this.$emit('input', false);
         }

@@ -23,6 +23,7 @@
 <script>
   export default {
     name: "DatePicker",
+    props: ["target"],
     data(){
       return{
         date: new Date().toISOString().substr(0, 7),
@@ -43,7 +44,7 @@
           index = index.slice(-1);
         }
         let month = date.slice(0, -3);
-    
+
         return `${month} ${monthNames[index - 1]}`;
       }
     }
