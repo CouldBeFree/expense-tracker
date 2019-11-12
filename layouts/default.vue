@@ -49,9 +49,7 @@
     methods: {
       ...mapMutations("auth", ["showSnackBar", "setToken"]),
       ...mapActions("auth", ["getUser"]),
-      ...mapActions({
-        getExpenses: 'expenses/getExpenses'
-      }),
+      ...mapActions("expenses", ["getExpenses"]),
       closeSnackbar(){
         this.showSnackBar(false);
       }

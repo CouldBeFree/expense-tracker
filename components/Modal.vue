@@ -146,10 +146,8 @@
     methods: {
       ...mapMutations("incomes", ['setIncomeParams']),
       ...mapMutations("expenses", ['setExpenseParams']),
-      ...mapActions({
-        saveIncome: 'incomes/saveIncome',
-        saveExpense: 'expenses/saveExpense'
-      }),
+      ...mapActions('incomes', ['getIncomes', 'saveIncome']),
+      ...mapActions('expenses', ['saveExpense']),
       onInput(val, category){
         if(this.label === 'income'){
           this.setIncomeParams([category, val]);
@@ -171,7 +169,12 @@
       },
       async saveData(){
         if(this.$refs.form.validate()){
-          this.label === 'income' ? await this.saveIncome() : await this.saveExpense();
+          if(this.label === 'income'){
+            await this.saveIncome();
+            await this.getIncomes();
+          } else {
+            await this.saveExpense();
+          }
           this.$refs.form.reset();
           this.$emit('input', false);
         }

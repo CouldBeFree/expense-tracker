@@ -22,7 +22,7 @@ export const mutations = {
     Vue.set(state.incomeDetails, param, value);
   },
   setIncomes(state, incomes){
-    state.incomes = incomes
+    state.incomes = incomes;
   }
 };
 

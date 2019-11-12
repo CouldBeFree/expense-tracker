@@ -15,7 +15,7 @@
     <v-date-picker v-model='date' type='month' scrollable>
       <v-spacer></v-spacer>
       <v-btn text color='primary' @click='modal = false'>Cancel</v-btn>
-      <v-btn text color='primary' @click='$refs.dialog.save(date)'>OK</v-btn>
+      <v-btn text color='primary' @click='onDateSelect'>OK</v-btn>
     </v-date-picker>
   </v-dialog>
 </template>
@@ -23,7 +23,6 @@
 <script>
   export default {
     name: "DatePicker",
-    props: ["target"],
     data(){
       return{
         date: new Date().toISOString().substr(0, 7),
@@ -46,6 +45,10 @@
         let month = date.slice(0, -3);
 
         return `${month} ${monthNames[index - 1]}`;
+      },
+      onDateSelect(){
+        this.$refs.dialog.save(this.date);
+        this.$emit('date', this.date);
       }
     }
   }

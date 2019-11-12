@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout justify-center>
-      <date-picker :target="'incomes'"></date-picker>
+      <date-picker @date="onDateSelect"></date-picker>
     </v-layout>
     <h2 class="text-center mt-2 mb-2">Incomes</h2>
     <data-table
@@ -16,14 +16,13 @@
   import DatePicker from "../components/DatePicker";
   import Modal from "../components/Modal";
   import DataTable from "../components/DataTable";
-  import { mapActions, mapState } from 'vuex';
+  import { mapActions, mapState, mapMutations } from 'vuex';
 
   export default {
     name: "incomes",
     data(){
       return{
-        isOpen: false,
-        currentDate: new Date().toISOString().substr(0, 10)
+        isOpen: false
       }
     },
     components: {
@@ -32,7 +31,7 @@
       DataTable
     },
     async mounted(){
-      await this.getIncomes(this.currentDate);
+      await this.getIncomes();
     },
     computed: {
       ...mapState('incomes', {
@@ -43,8 +42,13 @@
       ...mapActions({
         getIncomes: 'incomes/getIncomes'
       }),
+      ...mapMutations('common', ['setDate']),
       removeItem(){
 
+      },
+      async onDateSelect(val){
+        this.setDate(`${val}-01`);
+        await this.getIncomes();
       }
     }
   }

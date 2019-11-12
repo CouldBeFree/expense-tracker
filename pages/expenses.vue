@@ -1,13 +1,13 @@
 <template>
   <v-container>
     <v-layout justify-center>
-      <date-picker></date-picker>
+      <date-picker @date="onDateSelect"></date-picker>
     </v-layout>
     <h2 class="text-center mt-2 mb-2">Expenses</h2>
     <data-table
             @delete="removeItem"
             @edit="editItem"
-            :options="expense"
+            :options="expenses"
     ></data-table>
     <modal
             v-model="isOpen"
@@ -19,8 +19,8 @@
   import DatePicker from "../components/DatePicker";
   import Modal from "../components/Modal";
   import DataTable from "../components/DataTable";
-  import { mapGetters, mapMutations } from 'vuex'
-  
+  import { mapMutations, mapState, mapActions } from 'vuex'
+
   export default {
     name: "expenses",
     components: {
@@ -34,21 +34,22 @@
       }
     },
     computed: {
-      ...mapGetters([
-        'expense'
-      ])
+      ...mapState('expenses', {
+        expenses: state => state.expenses
+      })
     },
     methods: {
-      ...mapMutations([
-        'removeExpenseItem',
-        'setEditedObject'
-      ]),
+      ...mapActions('expenses', ['getExpenses']),
+      ...mapMutations('common', ['setDate']),
       removeItem(item){
         this.removeExpenseItem(item.id)
       },
       editItem(item){
         this.isOpen = true;
-        this.setEditedObject(item);
+      },
+      async onDateSelect(val){
+        this.setDate(`${val}-01`);
+        await this.getExpenses();
       }
     }
   }
