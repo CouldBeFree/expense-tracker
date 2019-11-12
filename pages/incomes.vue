@@ -7,6 +7,7 @@
     <data-table
       :options="incomes"
       @delete="removeItem"
+      @edit="editItem"
     ></data-table>
     <modal v-model="isOpen"></modal>
   </v-container>
@@ -39,12 +40,15 @@
       })
     },
     methods: {
-      ...mapActions({
-        getIncomes: 'incomes/getIncomes'
-      }),
+      ...mapActions('incomes', ['getIncomes']),
       ...mapMutations('common', ['setDate']),
-      removeItem(){
-
+      ...mapMutations('incomes', ['setCurrentIncome']),
+      removeItem(item){
+        console.log(item);
+      },
+      editItem(item){
+        this.isOpen = true;
+        this.setCurrentIncome(item);
       },
       async onDateSelect(val){
         this.setDate(`${val}-01`);

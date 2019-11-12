@@ -52,18 +52,21 @@
               <v-flex xs6>
                 <v-text-field
                         type="text"
+                        :value="incomeDetails.description || expenseDetails.description"
                         label="Description"
                         prepend-icon="mdi-comment-text"
                         @input="onInput($event, 'description')"
                 ></v-text-field>
               </v-flex>
               <v-flex xs6>
+                {{incomeDetails.category}}
                 <v-select
+                        v-model="incomeDetails.category"
                         :items="selectOptions"
-                        label="Category"
+                        hide-details
+                        menu-props="auto"
                         :rules="[v => !!v || 'Category is required']"
                         prepend-icon="mdi-format-list-bulleted"
-                        :placeholder="category"
                         @input="onInput($event, 'category')"
                 ></v-select>
               </v-flex>

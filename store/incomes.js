@@ -23,6 +23,9 @@ export const mutations = {
   },
   setIncomes(state, incomes){
     state.incomes = incomes;
+  },
+  setCurrentIncome(state, income){
+    state.incomeDetails = income;
   }
 };
 

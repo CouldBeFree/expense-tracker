@@ -11,13 +11,13 @@
           <v-icon
             small
             class="mr-2"
-            @click="editItem(item)"
+            @click="$emit('edit', item)"
           >
             mdi-pencil
           </v-icon>
           <v-icon
             small
-            @click="deleteItem(item)"
+            @click="$emit('delete', item)"
           >
             mdi-delete
           </v-icon>
@@ -41,14 +41,6 @@
           {text: 'Description', value: 'description'},
           { text: 'Actions', value: 'action', sortable: false },
         ]
-      }
-    },
-    methods: {
-      editItem(item){
-        this.$emit('edit', item);
-      },
-      deleteItem(item){
-        this.$emit('delete', item);
       }
     }
   }
