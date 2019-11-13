@@ -6,7 +6,7 @@
       </v-layout>
       <v-layout>
         <v-flex xs12>
-          <div v-if='expense.length' class='mt-4'>
+          <div class='mt-4'>
             <v-layout>
               <v-flex xs8>
                 <pie-card
@@ -15,17 +15,17 @@
                 ></pie-card>
               </v-flex>
               <v-flex xs4>
-                <expenses-list
+                <!--<expenses-list
                   v-for='(item, i) in refactoredData'
                   :category='item.category'
                   :amount='item.amount'
                   :percent='percentCount(item.amount)'
                   :key='i'
-                ></expenses-list>
+                ></expenses-list>-->
               </v-flex>
             </v-layout>
           </div>
-          <div v-else class='d-flex flex-column justify-center align-center' style='height: 80vh'>
+          <div class='d-flex flex-column justify-center align-center' style='height: 80vh'>
             <div>
               <v-icon color='primary' size='100'>mdi-chart-arc</v-icon>
             </div>
@@ -34,17 +34,12 @@
         </v-flex>
       </v-layout>
     </v-card>
-    <modal
-      v-model="isOpen"
-    ></modal>
   </v-container>
 </template>
 
 <script>
   import PieCard from '../components/PieCard';
   import ExpensesList from '../components/ExpensesList';
-  import Modal from '~/components/Modal';
-  import { mapGetters } from 'vuex';
   import DatePicker from "../components/DatePicker";
 
   export default {
@@ -53,7 +48,6 @@
     components: {
       DatePicker,
       PieCard,
-      Modal,
       ExpensesList
     },
     data(){
@@ -62,11 +56,7 @@
       }
     },
     computed: {
-      ...mapGetters([
-        'expense',
-        'count'
-      ]),
-      refactoredData: function () {
+      /*refactoredData: function () {
         let holder = {};
         this.expense.forEach(el => {
           if (holder.hasOwnProperty(el.category)) {
@@ -81,7 +71,7 @@
           target.push({ category: prop, amount: holder[prop] });
         }
         return target;
-      }
+      }*/
     },
     methods: {
       percentCount(amount){

@@ -7,9 +7,9 @@ const errorResponse = require('../utils/errorResponse');
 // @access  Private
 exports.setIncome = asyncHandler(async (req, res, next) => {
   req.body.user = req.user.id;
-  
+
   const income = await Incomes.create(req.body);
-  
+
   res.status(200).json({
     success: 200,
     data: income
@@ -21,16 +21,16 @@ exports.setIncome = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.updateIncome = asyncHandler(async (req, res, next) => {
   let income = await Incomes.findById(req.params.id);
-  
+
   if(!income){
     return next(new errorResponse(`Income not found with id of ${req.params.id}`, 404))
   }
-  
+
   income = await Incomes.findOneAndUpdate({_id: req.params.id}, req.body, {
     new: true,
     runValidators: true
   });
-  
+
   res.status(200).json({
     success: 200,
     data: income
@@ -42,11 +42,11 @@ exports.updateIncome = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.getIncome = asyncHandler(async (req, res, next) => {
   let income = await Incomes.findById(req.params.id);
-  
+
   if(!income){
     return next(new errorResponse(`Income not found with id of ${req.params.id}`, 404))
   }
-  
+
   res.status(200).json({
     success: 200,
     data: income
@@ -58,13 +58,13 @@ exports.getIncome = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.removeIncome = asyncHandler(async (req, res, next) => {
   let income = await Incomes.findById(req.params.id);
-  
+
   if(!income){
     return next(new errorResponse(`Income not found with id of ${req.params.id}`, 404))
   }
-  
+
   income.remove();
-  
+
   res.status(200).json({
     success: 200,
     data: {}

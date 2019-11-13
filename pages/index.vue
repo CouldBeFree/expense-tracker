@@ -32,7 +32,6 @@
         <v-card height="300">
           <pie-card
             label="expense"
-            options="expense"
           ></pie-card>
         </v-card>
       </v-flex>
@@ -40,7 +39,6 @@
         <v-card height="300">
           <pie-card
             label="income"
-            :options="incomes"
           ></pie-card>
         </v-card>
       </v-flex>
@@ -57,9 +55,12 @@
         ></total-card>
       </v-flex>
     </v-layout>
-    <modal
-       v-model="isOpen"
-    ></modal>
+    <income-dialog v-model="isIncomeOpen"></income-dialog>
+    <expense-dialog v-model="isExpenseOpen"></expense-dialog>
+    <action-buttons
+       @income="onAction"
+       @expense="onAction"
+    ></action-buttons>
   </v-container>
 </template>
 
@@ -68,8 +69,10 @@
   import PieCard from "../components/PieCard";
   import BarCard from "../components/BarCard";
   import TotalCard from "../components/TotalCard";
-  import Modal from "../components/Modal";
-  import { mapActions, mapMutations } from 'vuex';
+  import ActionButtons from "../components/ActionButtons";
+  import ExpenseDialog from "../components/ExpenseDialog";
+  import IncomeDialog from "../components/IncomeDialog";
+  import { mapActions } from 'vuex';
 
   export default {
     middleware: 'auth',
@@ -78,22 +81,31 @@
       PieCard,
       BarCard,
       TotalCard,
-      Modal
+      ActionButtons,
+      ExpenseDialog,
+      IncomeDialog
     },
     data(){
       return {
-        isOpen: false,
-        incomes: {}
+        isIncomeOpen: false,
+        isExpenseOpen: false
       }
     },
     methods: {
       ...mapActions({
         getIncomes: 'incomes/getIncomes',
         getExpenses: 'expenses/getExpenses'
-      })
+      }),
+      onAction(val){
+        if(val === 'expense') {
+          this.isExpenseOpen = true;
+        } else{
+          this.isIncomeOpen = true;
+        }
+      }
     },
     mounted() {
-    
+
     }
   }
 </script>

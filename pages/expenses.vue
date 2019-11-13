@@ -9,15 +9,11 @@
             @edit="editItem"
             :options="expenses"
     ></data-table>
-    <modal
-            v-model="isOpen"
-    ></modal>
   </v-container>
 </template>
 
 <script>
   import DatePicker from "../components/DatePicker";
-  import Modal from "../components/Modal";
   import DataTable from "../components/DataTable";
   import { mapMutations, mapState, mapActions } from 'vuex'
 
@@ -25,7 +21,6 @@
     name: "expenses",
     components: {
       DatePicker,
-      Modal,
       DataTable
     },
     data(){
@@ -51,6 +46,9 @@
         this.setDate(`${val}-01`);
         await this.getExpenses();
       }
+    },
+    async mounted(){
+      await this.getExpenses();
     }
   }
 </script>
