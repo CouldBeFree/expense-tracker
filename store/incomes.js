@@ -48,7 +48,21 @@ export const actions = {
     const currentToken = localStorage.getItem('authToken');
     commit('setLoading', true);
     try{
-      await this.$axios.post('incomes/set', state.incomeDetails, { headers: {"Authorization" : `Bearer ${currentToken}`} });
+      if(state.incomeDetails._id){
+        await this.$axios.put(`incomes/${state.incomeDetails._id}`, state.incomeDetails, { headers: {"Authorization" : `Bearer ${currentToken}`}})
+      } else{
+        await this.$axios.post('incomes/set', state.incomeDetails, { headers: {"Authorization" : `Bearer ${currentToken}`} });
+      }
+    }catch ({response}) {
+      commit('setError', response.data.error);
+    }
+    commit('setLoading', false);
+  },
+  async removeIncome({state, commit}, id){
+    const currentToken = localStorage.getItem('authToken');
+    commit('setLoading', true);
+    try{
+      await this.$axios.delete(`incomes/${id}`, { headers: {"Authorization" : `Bearer ${currentToken}`}})
     }catch ({response}) {
       commit('setError', response.data.error);
     }

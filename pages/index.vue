@@ -72,6 +72,7 @@
   import ActionButtons from "../components/ActionButtons";
   import ExpenseDialog from "../components/ExpenseDialog";
   import IncomeDialog from "../components/IncomeDialog";
+  
   import { mapActions } from 'vuex';
 
   export default {

@@ -9,24 +9,38 @@
       @delete="removeItem"
       @edit="editItem"
     ></data-table>
+    <income-dialog v-model="isIncomeOpen"></income-dialog>
+    <expense-dialog v-model="isExpenseOpen"></expense-dialog>
+    <action-buttons
+            @income="onAction"
+            @expense="onAction"
+    ></action-buttons>
   </v-container>
 </template>
 
 <script>
   import DatePicker from "../components/DatePicker";
   import DataTable from "../components/DataTable";
+  import ActionButtons from "../components/ActionButtons";
+  import ExpenseDialog from "../components/ExpenseDialog";
+  import IncomeDialog from "../components/IncomeDialog";
+  
   import { mapActions, mapState, mapMutations } from 'vuex';
 
   export default {
     name: "incomes",
     data(){
       return{
-        isOpen: false
+        isIncomeOpen: false,
+        isExpenseOpen: false
       }
     },
     components: {
       DatePicker,
-      DataTable
+      DataTable,
+      ActionButtons,
+      ExpenseDialog,
+      IncomeDialog
     },
     async mounted(){
       await this.getIncomes();
@@ -37,19 +51,27 @@
       })
     },
     methods: {
-      ...mapActions('incomes', ['getIncomes']),
+      ...mapActions('incomes', ['getIncomes', 'removeIncome']),
       ...mapMutations('common', ['setDate']),
       ...mapMutations('incomes', ['setCurrentIncome']),
-      removeItem(item){
-        console.log(item);
+      async removeItem(item){
+        await this.removeIncome(item._id);
+        await this.getIncomes();
       },
       editItem(item){
-        this.isOpen = true;
+        this.isIncomeOpen = true;
         this.setCurrentIncome(item);
       },
       async onDateSelect(val){
         this.setDate(`${val}-01`);
         await this.getIncomes();
+      },
+      onAction(val){
+        if(val === 'expense') {
+          this.isExpenseOpen = true;
+        } else{
+          this.isIncomeOpen = true;
+        }
       }
     }
   }
