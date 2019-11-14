@@ -23,6 +23,9 @@ export const mutations = {
   },
   setExpenses(state, expenses){
     state.expenses = expenses;
+  },
+  setCurrentExpense(state, income){
+    state.expenseDetails = income;
   }
 };
 
@@ -45,7 +48,21 @@ export const actions = {
     const currentToken = localStorage.getItem('authToken');
     commit('setLoading', true);
     try{
-      await this.$axios.post('expenses/set', state.expenseDetails, { headers: {"Authorization" : `Bearer ${currentToken}`} });
+      if(state.expenseDetails._id){
+        await this.$axios.put(`expenses/${state.expenseDetails._id}`, state.expenseDetails, { headers: {"Authorization" : `Bearer ${currentToken}`}})
+      } else{
+        await this.$axios.post('expenses/set', state.expenseDetails, { headers: {"Authorization" : `Bearer ${currentToken}`} });
+      }
+    }catch ({response}) {
+      commit('setError', response.data.error);
+    }
+    commit('setLoading', false);
+  },
+  async removeExpense({state, commit}, id){
+    const currentToken = localStorage.getItem('authToken');
+    commit('setLoading', true);
+    try{
+      await this.$axios.delete(`expenses/${id}`, { headers: {"Authorization" : `Bearer ${currentToken}`}})
     }catch ({response}) {
       commit('setError', response.data.error);
     }

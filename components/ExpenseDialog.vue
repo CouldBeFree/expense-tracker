@@ -3,7 +3,10 @@
     <v-dialog :value="value" persistent max-width="800px">
       <v-card>
         <v-card-title>
-          <span class="headline">Expense</span>
+          <span class="headline">
+            <span v-if="expenseDetails._id">Edit</span>
+            Expense
+          </span>
         </v-card-title>
         <v-card-text>
           <v-form ref="form">
@@ -63,6 +66,8 @@
                     :items="selectOptions"
                     hide-details
                     menu-props="auto"
+                    label="Category"
+                    :value="expenseDetails.category"
                     :rules="[v => !!v || 'Category is required']"
                     prepend-icon="mdi-format-list-bulleted"
                     @input="onInput($event, 'category')"
@@ -95,8 +100,8 @@
       }
     },
     methods: {
-      ...mapActions('expenses', ['saveExpense']),
-      ...mapMutations("expenses", ['setExpenseParams']),
+      ...mapActions('expenses', ['saveExpense', 'getExpenses']),
+      ...mapMutations("expenses", ['setExpenseParams', 'setCurrentExpense']),
       onInput(val, category){
         this.setExpenseParams([category, val]);
       },
@@ -106,11 +111,13 @@
       },
       closeForm(){
         this.$refs.form.resetValidation();
+        this.setCurrentExpense({});
         this.$emit('input', false);
       },
       async saveData(){
         if(this.$refs.form.validate()){
           await this.saveExpense();
+          await this.getExpenses();
           this.$refs.form.reset();
           this.$emit('input', false);
         }
