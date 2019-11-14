@@ -119,6 +119,7 @@
           await this.saveExpense();
           await this.getExpenses();
           this.$refs.form.reset();
+          this.$emit('save', true);
           this.$emit('input', false);
         }
       }

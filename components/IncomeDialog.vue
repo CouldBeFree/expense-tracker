@@ -119,6 +119,7 @@
           await this.saveIncome();
           await this.getIncomes();
           this.$refs.form.reset();
+          this.$emit('save', true);
           this.$emit('input', false);
         }
       }
