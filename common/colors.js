@@ -1,6 +1,6 @@
-const expenses = ['#FF9494','#0099CC','#C58BE2','#FF8A00','#669900','#CC0D01'];
+const expensesColor = ['#FF9494','#0099CC','#C58BE2','#FF8A00','#669900','#CC0D01'];
 
-const incomes = ['#CC0D01', '#9833CC', '#FF8A00', '#669900'];
+const incomesColor = ['#CC0D01', '#9833CC', '#FF8A00', '#669900'];
 
 /*const expenses = {
   clothing: 'rgba(255, 148, 148, 1)',
@@ -18,7 +18,7 @@ const incomes = ['#CC0D01', '#9833CC', '#FF8A00', '#669900'];
   gift: 'rgba(102, 153, 0, 1)'
 };*/
 
-export { expenses, incomes }
+export { expensesColor, incomesColor }
 
 /*
 Expenses

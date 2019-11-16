@@ -69,6 +69,7 @@
     },
     methods: {
       ...mapActions('incomes', ['getIncomes', 'removeIncome']),
+      ...mapActions('expenses', ['getExpenses']),
       ...mapMutations('common', ['setDate']),
       ...mapMutations('incomes', ['setCurrentIncome']),
       async removeItem(){
@@ -84,6 +85,7 @@
       async onDateSelect(val){
         this.setDate(`${val}-01`);
         await this.getIncomes();
+        await this.getExpenses();
       },
       onRemove(item){
         this.dialog = true;

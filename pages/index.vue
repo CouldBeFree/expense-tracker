@@ -35,16 +35,18 @@
       <v-flex xs6>
         <v-card height="300">
           <pie-card
-              label="expense"
+              :label="'Incomes'"
+              :options="incomes"
           ></pie-card>
         </v-card>
       </v-flex>
       <v-flex xs6>
-        <!--<v-card height="300">
+        <v-card height="300">
           <pie-card
-              label="income"
+               :label="'Expense'"
+               :options="expenses"
           ></pie-card>
-        </v-card>-->
+        </v-card>
       </v-flex>
     </v-layout>
     <v-layout>
@@ -60,8 +62,8 @@
         ></total-card>
       </v-flex>
     </v-layout>
-    <income-dialog @save="getTotal" v-model="isIncomeOpen"></income-dialog>
-    <expense-dialog @save="getTotal" v-model="isExpenseOpen"></expense-dialog>
+    <income-dialog @saveIncome="getTotal" v-model="isIncomeOpen"></income-dialog>
+    <expense-dialog @saveExpense="getTotal" v-model="isExpenseOpen"></expense-dialog>
     <action-buttons
         @income="onAction"
         @expense="onAction"
@@ -94,9 +96,7 @@
     data(){
       return {
         isIncomeOpen: false,
-        isExpenseOpen: false,
-        incomes: 1,
-        expenses: 1
+        isExpenseOpen: false
       }
     },
     methods: {
@@ -119,6 +119,12 @@
     computed: {
       ...mapState('common', {
         total: state => state.total
+      }),
+      ...mapState('expenses', {
+        expenses: state => state.expenses
+      }),
+      ...mapState('incomes', {
+        incomes: state => state.incomes
       }),
       isEmpty: function () {
         return Object.keys(this.total).length

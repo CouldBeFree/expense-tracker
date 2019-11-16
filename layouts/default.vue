@@ -34,8 +34,7 @@
 		data () {
 			return {
         text: 'You need to login to access this page',
-        color: 'error',
-        currentDate: new Date().toISOString().substr(0, 10)
+        color: 'error'
 			}
 		},
     async mounted(){
@@ -43,13 +42,15 @@
 
       if(currentToken){
         this.setToken(currentToken);
-        await this.getExpenses(this.currentDate);
+        await this.getExpenses();
+        await this.getIncomes();
       }
     },
     methods: {
       ...mapMutations("auth", ["showSnackBar", "setToken"]),
       ...mapActions("auth", ["getUser"]),
       ...mapActions("expenses", ["getExpenses"]),
+      ...mapActions("incomes", ["getIncomes"]),
       closeSnackbar(){
         this.showSnackBar(false);
       }
