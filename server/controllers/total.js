@@ -8,9 +8,12 @@ const calculateTotal = require('../utils/calculateTotal');
 // @route   GET /api/v1/total
 // @access  Private
 exports.getTotal = asyncHandler(async (req, res, next) => {
-  const expense = await calculateTotal(Expenses, req.query.date, req.user._id);
-  const incomes = await calculateTotal(Incomes, req.query.date, req.user._id);
-
+  let expense = await calculateTotal(Expenses, req.query.date, req.user._id);
+  let incomes = await calculateTotal(Incomes, req.query.date, req.user._id);
+  
+  incomes = incomes.length ? incomes[0].total : 0;
+  expense = expense.length ? expense[0].total : 0;
+  
   res.status(200).json({
     success: true,
     expenses: expense,

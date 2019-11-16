@@ -3,31 +3,27 @@
     <v-layout>
       <v-flex xs4>
         <balance-card
-            v-if="isEmpty"
-            :balance="this.total.incomes[0].total - this.total.expenses[0].total"
+            :balance="this.total.incomes - this.total.expenses"
         ></balance-card>
       </v-flex>
       <v-flex xs4>
         <balance-card
-            v-if="isEmpty"
             xs4
-            :incomes="this.total.incomes[0].total"
+            :incomes="this.total.incomes"
             :path="'/incomes'"
         ></balance-card>
       </v-flex>
       <v-flex xs4>
         <balance-card
-            v-if="isEmpty"
             xs4
-            :expenses="this.total.expenses[0].total"
+            :expenses="this.total.expenses"
             :path="'/expenses'"
         ></balance-card>
       </v-flex>
       <v-flex xs4>
         <balance-card
-            v-if="isEmpty"
             xs4
-            :savings="this.total.incomes[0].total - this.total.expenses[0].total"
+            :savings="this.total.incomes - this.total.expenses"
         ></balance-card>
       </v-flex>
     </v-layout>
@@ -55,10 +51,9 @@
       </v-flex>
       <v-flex xs6>
         <total-card
-            v-if="isEmpty"
-            :income="this.total.incomes[0].total"
-            :expenses="this.total.expenses[0].total"
-            :savings="this.total.incomes[0].total - this.total.expenses[0].total"
+            :income="this.total.incomes"
+            :expenses="this.total.expenses"
+            :savings="this.total.incomes - this.total.expenses"
         ></total-card>
       </v-flex>
     </v-layout>
@@ -125,10 +120,7 @@
       }),
       ...mapState('incomes', {
         incomes: state => state.incomes
-      }),
-      isEmpty: function () {
-        return Object.keys(this.total).length
-      }
+      })
     }
   }
 </script>

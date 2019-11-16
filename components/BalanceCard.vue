@@ -10,15 +10,15 @@
             <v-flex>
                 <div v-if="balance" class="pr-1">
                     <div class="font-weight-light text-lg-right">Current Balance</div>
-                    <div style="color: #0D47A1; font-size: 18px; font-weight: bold;" class="text-lg-right">$ {{balance}}</div>
+                    <div style="color: #0D47A1; font-size: 18px; font-weight: bold;" class="text-lg-right">$ {{balance || 0}}</div>
                 </div>
                 <div v-else-if="incomes" class="pr-1">
                     <div class="font-weight-light text-lg-right">Incomes</div>
-                    <div style="color: #4CAF50; font-size: 18px; font-weight: bold;" class="text-lg-right">$ {{incomes}}</div>
+                    <div style="color: #4CAF50; font-size: 18px; font-weight: bold;" class="text-lg-right">$ {{incomes || 0}}</div>
                 </div>
                 <div v-else-if="expenses" class="pr-1">
                     <div class="font-weight-light text-lg-right">Expenses</div>
-                    <div style="color: #F44336; font-size: 18px; font-weight: bold;" class="text-lg-right">$ {{expenses}}</div>
+                    <div style="color: #F44336; font-size: 18px; font-weight: bold;" class="text-lg-right">$ {{expenses || 0}}</div>
                 </div>
                 <div v-else-if="savings" class="pr-1">
                     <div class="font-weight-light text-lg-right">Savings</div>

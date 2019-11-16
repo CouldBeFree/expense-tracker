@@ -21,7 +21,7 @@ const calculateTotal = async (model, date, id) => {
       }
     ]
   );
-
+  
   return total;
 };
 
