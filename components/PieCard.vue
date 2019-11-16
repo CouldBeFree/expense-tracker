@@ -1,6 +1,6 @@
 <template>
     <no-ssr>
-        <div v-if="options">
+        <div v-if="options.length">
             <chartjs-doughnut
                     :labels="labels"
                     :option="option"

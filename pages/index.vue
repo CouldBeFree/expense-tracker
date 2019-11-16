@@ -3,27 +3,31 @@
     <v-layout>
       <v-flex xs4>
         <balance-card
-            :balance="this.total.incomes - this.total.expenses"
+            :type="'balance'"
+            :value="this.total.incomes - this.total.expenses"
         ></balance-card>
       </v-flex>
       <v-flex xs4>
         <balance-card
+            :type="'incomes'"
             xs4
-            :incomes="this.total.incomes"
+            :value="this.total.incomes"
             :path="'/incomes'"
         ></balance-card>
       </v-flex>
       <v-flex xs4>
         <balance-card
+            :type="'expenses'"
             xs4
-            :expenses="this.total.expenses"
+            :value="this.total.expenses"
             :path="'/expenses'"
         ></balance-card>
       </v-flex>
       <v-flex xs4>
         <balance-card
+            :type="'savings'"
             xs4
-            :savings="this.total.incomes - this.total.expenses"
+            :value="this.total.incomes - this.total.expenses"
         ></balance-card>
       </v-flex>
     </v-layout>
@@ -43,18 +47,6 @@
                :options="expenses"
           ></pie-card>
         </v-card>
-      </v-flex>
-    </v-layout>
-    <v-layout>
-      <v-flex xs6>
-        <bar-card></bar-card>
-      </v-flex>
-      <v-flex xs6>
-        <total-card
-            :income="this.total.incomes"
-            :expenses="this.total.expenses"
-            :savings="this.total.incomes - this.total.expenses"
-        ></total-card>
       </v-flex>
     </v-layout>
     <income-dialog @saveIncome="getTotal" v-model="isIncomeOpen"></income-dialog>
