@@ -2,12 +2,12 @@
     <no-ssr>
         <div v-if="options.length">
             <chartjs-doughnut
-                    :labels="labels"
-                    :option="option"
-                    :data="data"
-                    :bind="true"
-                    :backgroundcolor="colors"
-                    :hoverbackgroundcolor="colors"
+                :labels="labels"
+                :option="option"
+                :data="data"
+                :bind="true"
+                :backgroundcolor="colors"
+                :hoverbackgroundcolor="colors"
             >
             </chartjs-doughnut>
         </div>
@@ -24,8 +24,9 @@
 </template>
 
 <script>
+    import { mapActions, mapState } from 'vuex';
     import { expensesColor, incomesColor } from '~/common/colors';
-    
+
     export default {
         name: "PieCard",
         props: ['label', 'options'],
@@ -40,6 +41,17 @@
                 }
             }
         },
+        methods: {
+            ...mapActions({
+                getIncomes: 'incomes/getIncomes',
+                getExpenses: 'expenses/getExpenses'
+            })
+        },
+        async mounted(){
+            //console.log('True');
+            //await this.getIncomes();
+            //await this.getExpenses();
+        },
         computed: {
             refactoredData: function () {
                 let holder = {};
@@ -50,7 +62,7 @@
                         holder[el.category] = +el.amount;
                     }
                 });
-                
+
                 let target = [];
                 for (let prop in holder) {
                     target.push({ category: prop, amount: holder[prop] });

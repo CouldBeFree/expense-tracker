@@ -40,10 +40,14 @@
     name: "NavBar",
     methods: {
       ...mapMutations("auth", ["setToken"]),
+      ...mapMutations("expenses", ["setExpenses"]),
+      ...mapMutations("incomes", ["setIncomes"]),
       logout(){
         this.$router.push({ path: '/login' });
         this.setToken('');
         localStorage.removeItem('authToken');
+        this.setExpenses([]);
+        this.setIncomes([]);
       }
     },
     computed: {

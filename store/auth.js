@@ -44,7 +44,7 @@ export const actions = {
     commit('setError', '');
     try{
       const { data } = await this.$axios.post('auth/login', payload);
-      const { token, success } = data;
+      const { token } = data;
       localStorage.setItem('authToken', token);
       commit('setToken', token);
       await this.$router.push({ path: '/' });

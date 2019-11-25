@@ -11,10 +11,6 @@ export const mutations = {
   setLoading(state, payload){
     state.expensesLoading = payload;
   },
-  removeExpenseItem(state, payload){
-    const index = state.expenses.findIndex(el => el.id === payload);
-    state.expenses.splice(index, 1);
-  },
   setError(state, error){
     state.error = error;
   },
